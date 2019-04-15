@@ -1,5 +1,13 @@
 .*/
 .*
 !.gitignore
-Code/Data/liar_dataset/
-Thesis/ThesisDesign*[.aux, .log, .out, .synctex.gz]
+code/Data/liar_dataset/
+*.tdo
+*.blg
+*.aux
+*.log
+*.out
+*.fls
+*.synctex.gz
+*.fdb_latexmk
+thesis/acmart.cls
