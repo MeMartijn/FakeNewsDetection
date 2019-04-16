@@ -8,6 +8,7 @@ code/Data/liar_dataset/
 *.log
 *.out
 *.fls
+*.toc
 *.synctex.gz
 *.fdb_latexmk
 thesis/acmart.cls
