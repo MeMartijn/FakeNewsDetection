@@ -12,3 +12,4 @@ code/Data/liar_dataset/
 *.synctex.gz
 *.fdb_latexmk
 thesis/acmart.cls
+thesis/*.bbl
