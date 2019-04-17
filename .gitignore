@@ -1,7 +1,7 @@
 .*/
 .*
 !.gitignore
-codes/data/liar_dataset/
+code/data/liar_dataset/
 *.tdo
 *.blg
 *.aux
@@ -11,5 +11,5 @@ codes/data/liar_dataset/
 *.toc
 *.synctex.gz
 *.fdb_latexmk
-text/acmart.cls
-text/*.bbl
+thesis/acmart.cls
+thesis/*.bbl
