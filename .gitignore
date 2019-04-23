@@ -13,3 +13,4 @@ code/data/liar_dataset/
 *.fdb_latexmk
 thesis/acmart.cls
 thesis/*.bbl
+code/data/bag-of-words

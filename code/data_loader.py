@@ -1,5 +1,9 @@
 import os
 import pandas as pd
+from nltk.tokenize import word_tokenize
+from nltk.stem.porter import PorterStemmer
+import string
+from sklearn.feature_extraction.text import CountVectorizer
 
 class DataLoader:
     '''A class which holds functionality to load and interact with the data from the research article'''
@@ -21,7 +25,7 @@ class DataLoader:
             '''Short function to ensemble the paths of data files'''
             return self.data_dir + '/' + dir_name + '/' + file
     
-        if dir_name in os.listdir('Data'):
+        if dir_name in os.listdir(self.data_dir):
             return {
                 'train': ensemble_path('/train.tsv'),
                 'test': ensemble_path('/test.tsv'),
@@ -39,4 +43,77 @@ class DataLoader:
 
     def get_bow(self):
         '''Returns bag of words representation of the dataset'''
-        return 'To be constructed'
+        # Directory name for saving the datasets
+        bow_dir = 'bag-of-words'
+
+        def tokenize(statement):
+            '''Tokenize function for CountVectorizer'''
+            # Tokenize, lowercase
+            statement = word_tokenize(statement.lower())
+
+            # Remove punctuation
+            table = str.maketrans('', '', string.punctuation)
+            statement = [word.translate(table) for word in statement]
+
+            # Remove empty strings
+            statement = [word for word in statement if len(word) > 0]
+
+            # Apply stemming
+            porter = PorterStemmer()
+            statement = [porter.stem(word) for word in statement]
+
+            return statement
+
+        def create_dataframe(df, vectorizer, features):
+            '''Create a Bag of Words dataframe from another dataframe'''
+            # Create a dataframe from the transformed statements
+            new_df = pd.DataFrame(vectorizer.transform(
+                df.statement).toarray(), columns=features)
+
+            # Add referencing columns
+            new_df['label'] = list(df.label)
+            new_df['id'] = list(df.index)
+            new_df.set_index('id', inplace=True)
+
+            return new_df
+
+        def init():
+            '''Initialize all logic from the main function'''
+            # Check whether there is a file containing the BoW data already present
+            if bow_dir in os.listdir(self.data_dir):
+                return {
+                    dataset: pd.read_csv(os.path.join(self.data_dir, bow_dir, dataset + '.csv'), index_col = 'id')
+                    for dataset in self.df.keys()
+                }
+            else:
+                print('Creating Bag of Words representation and saving them as files...')
+                os.mkdir(self.data_dir + '/' + bow_dir)
+
+                # Combine all statements to extract all possible features
+                all_statements = pd.concat([self.df[dataset] for dataset in self.df.keys()])['statement']
+
+                # Create tokenizer
+                bow = CountVectorizer(
+                    strip_accents = 'ascii',
+                    analyzer = 'word',
+                    tokenizer = tokenize,
+                    stop_words = 'english',
+                    lowercase = True,
+                )
+                bow.fit(all_statements)
+
+                # Get column names
+                features = bow.get_feature_names()
+                dfs = {
+                    dataset: create_dataframe(self.df[dataset], bow, features)
+                    for dataset in self.df.keys()
+                }
+
+                # Save the datasets as csv files
+                for dataset in dfs.keys():
+                    dfs[dataset].to_csv(os.path.join(self.data_dir, bow_dir, dataset + '.csv'))
+                print('Saved the datasets at ' + bow_dir)
+
+                return dfs
+
+        return init()
