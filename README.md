@@ -1,6 +1,6 @@
 # Bachelor thesis: exploring algorithmic detection of fake news
 In my thesis, I'm going to explore the following question: how well can pre-trained language embedding techniques classify fake news?
-This research will be focussed on applying new techniques on [earlier research by Wang (2017)](https://arxiv.org/abs/1705.00648). Results of Wang will be used as a benchmark for performance. 
+This research will be focussed on applying transfer learning on [earlier research by Wang (2017)](https://arxiv.org/abs/1705.00648). Results of Wang will be used as a benchmark for performance. 
 
 ## Q1: How can fake news be defined and characterized?
 Goals:
