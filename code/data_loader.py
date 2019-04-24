@@ -82,7 +82,7 @@ class DataLoader:
             # Check whether there is a file containing the BoW data already present
             if bow_dir in os.listdir(self.data_dir):
                 return {
-                    dataset: pd.read_csv(os.path.join(self.data_dir, bow_dir, dataset + '.csv'), index_col = 'id')
+                    dataset: pd.read_pickle(os.path.join(self.data_dir, bow_dir, dataset + '.pkl'))
                     for dataset in self.df.keys()
                 }
             else:
@@ -109,9 +109,9 @@ class DataLoader:
                     for dataset in self.df.keys()
                 }
 
-                # Save the datasets as csv files
+                # Save the datasets as pickle files
                 for dataset in dfs.keys():
-                    dfs[dataset].to_csv(os.path.join(self.data_dir, bow_dir, dataset + '.csv'))
+                    dfs[dataset].to_pickle(os.path.join(self.data_dir, bow_dir, dataset + '.pkl'))
                 print('Saved the datasets at ' + bow_dir)
 
                 return dfs
