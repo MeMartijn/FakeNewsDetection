@@ -14,3 +14,4 @@ code/data/liar_dataset/
 thesis/acmart.cls
 thesis/*.bbl
 code/data/bag-of-words
+__latexindent_temp.tex
