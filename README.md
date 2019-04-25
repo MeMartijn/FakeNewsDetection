@@ -16,9 +16,3 @@ Goals:
 Goals:
 * Define which classifiers can be used and make sense
 * Compare classifier/embedding combinations
-
-## Q4: To what extent can performance of fake news classifiers be improved with increased amounts of raw data?
-Goals:
-* Scrape additional statements from [PolitiFact](https://www.politifact.com/)
-* Concatenate the original dataset with the newly aggregated statements
-* Retrain the classifier/embedding combinations from Q3 with the new dataset
