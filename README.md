@@ -16,12 +16,12 @@ Goals:
 
 ### Q2: Which pre-trained models are available for embedding raw text?
 Goals:
-* Gather a list of possible word/sentence embeddings for later use
+* ~~Gather a list of possible word/sentence embeddings for later use~~
 * Create embeddings for each of the listed techniques
 
 ### Q3: What is the performance of combinations of pre-trained embedding techniques with machine learning algorithms?
 Goals:
-* Define which classifiers can be used and make sense
+* ~~Define which classifiers can be used and make sense~~
 * Compare classifier/embedding combinations
 
 <a name="results"/>
