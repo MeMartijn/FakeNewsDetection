@@ -7,6 +7,7 @@ This research will be focussed on applying transfer learning on [earlier researc
 2. [Results](#results)
 
 <a name="rq"/>
+
 ## Research questions
 ### Q1: How can fake news be defined?
 Goals:
@@ -24,6 +25,7 @@ Goals:
 * Compare classifier/embedding combinations
 
 <a name="results"/>
+
 ## (Interim) results
 |                      | Bag of Words | InferSent | ELMo | BERT | GPT-2 | Transformer-XL | MT-DNN |
 |----------------------|--------------|-----------|------|------|-------|----------------|--------|
