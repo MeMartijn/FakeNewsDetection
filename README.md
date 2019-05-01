@@ -27,9 +27,9 @@ Goals:
 <a name="results"/>
 
 ## (Interim) results
-|                     | Bag of Words                   | InferSent | ELMo | BERT | GPT-2 | Transformer-XL | MT-DNN |
-|---------------------|--------------------------------|-----------|------|------|-------|----------------|--------|
-| SVM                 | Test: 0.226; Validation: 0.247 |           |      |      |       |                |        |
-| Logistic regression | Test: 0.249; Validation: 0.251 |           |      |      |       |                |        |
-| Bi-LSTM             |                                |           |      |      |       |                |        |
-| CNN                 |                                |           |      |      |       |                |        |
+|                     | Bag of Words                   | InferSent                      | ELMo | BERT | GPT-2 | Transformer-XL | MT-DNN |
+|---------------------|--------------------------------|--------------------------------|------|------|-------|----------------|--------|
+| SVM                 | Test: 0.226; Validation: 0.247 | Test: 0.000; Validation: 0.000 |      |      |       |                |        |
+| Logistic regression | Test: 0.249; Validation: 0.251 | Test: 0.245; Validation: 0.247 |      |      |       |                |        |
+| Bi-LSTM             |                                |                                |      |      |       |                |        |
+| CNN                 |                                |                                |      |      |       |                |        |
