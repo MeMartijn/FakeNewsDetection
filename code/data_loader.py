@@ -16,6 +16,9 @@ class DataLoader:
 
         # Dataframes of the train, test and validation datasets
         self.df = self.get_dfs()
+
+        # All the statements, used for training models
+        self.all_statements = pd.concat([self.df[dataset] for dataset in self.df.keys()])['statement']
     
     def get_data_loc(self):
         '''Returns the file path for the data'''
@@ -89,9 +92,6 @@ class DataLoader:
                 print('Creating Bag of Words representation and saving them as files...')
                 os.mkdir(self.data_dir + '/' + bow_dir)
 
-                # Combine all statements to extract all possible features
-                all_statements = pd.concat([self.df[dataset] for dataset in self.df.keys()])['statement']
-
                 # Create tokenizer
                 bow = CountVectorizer(
                     strip_accents = 'ascii',
@@ -100,7 +100,7 @@ class DataLoader:
                     stop_words = 'english',
                     lowercase = True,
                 )
-                bow.fit(all_statements)
+                bow.fit(self.all_statements)
 
                 # Get column names
                 features = bow.get_feature_names()
