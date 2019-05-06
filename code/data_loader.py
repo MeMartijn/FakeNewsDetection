@@ -47,10 +47,18 @@ class DataLoader:
     
     def get_dfs(self):
         '''Returns a dictionary with pandas dataframes for all data in the data_link dictionary'''
-        return {
+        dfs = {
             dataset: pd.read_csv(self.data_link[dataset], sep='\t', header=None, index_col=0, names=['id', 'label', 'statement', 'subjects', 'speaker', 'speaker_job', 'state', 'party', 'barely_true_count', 'false_count', 'half_true_count', 'mostly_true_count', 'pants_on_fire_count', 'context'])
             for dataset in self.data_link.keys()
         }
+
+        # Data cleaning as described in the Data Explorations notebook
+        for dataset in dfs.keys():
+            dfs[dataset]['mistake_filter'] = df.statement.apply(lambda x: len(re.findall(r'\.json%%(mostly-true|true|half-true|false|barely-true|pants-fire)', re.sub(r"\t", "%%", x))))
+            dfs[dataset] = dfs[dataset][dfs[dataset]['mistake_filter'] == 0]
+            dfs[dataset].drop(columns='mistake_filter', inplace = True)
+        
+        return dfs
 
     def get_bow(self):
         '''Returns bag of words representation of the dataset'''
@@ -202,6 +210,73 @@ class DataLoader:
                 for dataset in dfs.keys():
                     dfs[dataset].to_pickle(os.path.join(self.data_dir, infersent_dir, dataset + '.pkl'))
                 print('Saved the datasets at ' + infersent_dir)
+
+                return dfs
+
+        return init()
+
+    def get_elmo(self):
+        '''Returns ELMo representation of the dataset'''
+        # Directory name for saving the datasets
+        elmo_dir = 'elmo'
+
+        def create_dataframe(df, encoder):
+            '''Create an InferSent dataframe from another dataframe'''
+            # Create a dataframe from the transformed statements
+            new_df = pd.DataFrame(encoder.encode(df.statement, tokenize=True))
+
+            # Add referencing columns
+            new_df['label'] = list(df.label)
+            new_df['id'] = list(df.index)
+            new_df.set_index('id', inplace=True)
+
+            return new_df
+
+        def init():
+            '''Initialize all logic from the main function'''
+            # Check whether there is a file containing the InferSent data already present
+            if elmo_dir in os.listdir(self.data_dir):
+                return {
+                    dataset: pd.read_pickle(os.path.join(
+                        self.data_dir, elmo_dir, dataset + '.pkl'))
+                    for dataset in self.df.keys()
+                }
+            else:
+                print('Creating ELMo representation and saving them as files...')
+
+                # Create a storage directory
+                os.mkdir(self.data_dir + '/' + elmo_dir)
+
+                # Load pre-trained model
+                model_version = 2
+                MODEL_PATH = "encoder/infersent%s.pkl" % model_version
+                params_model = {'bsize': 64, 'word_emb_dim': 300, 'enc_lstm_dim': 2048,
+                                'pool_type': 'max', 'dpout_model': 0.0, 'version': model_version}
+                model = InferSent(params_model)
+                model.load_state_dict(torch.load(MODEL_PATH))
+
+                # Keep it on CPU or put it on GPU
+                use_cuda = False
+                model = model.cuda() if use_cuda else model
+
+                # Set word vectors
+                W2V_PATH = os.path.join(
+                    self.data_dir, fasttext_dir, 'crawl-300d-2M.vec')
+                model.set_w2v_path(W2V_PATH)
+
+                # Build vocabulary
+                model.build_vocab(self.all_statements, tokenize=True)
+
+                dfs = {
+                    dataset: create_dataframe(self.df[dataset], model)
+                    for dataset in self.df.keys()
+                }
+
+                # Save the datasets as pickle files
+                for dataset in dfs.keys():
+                    dfs[dataset].to_pickle(os.path.join(
+                        self.data_dir, elmo_dir, dataset + '.pkl'))
+                print('Saved the datasets at ' + elmo_dir)
 
                 return dfs
 
