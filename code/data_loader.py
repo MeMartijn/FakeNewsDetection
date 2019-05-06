@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import re
 
 # Bag of Words imports
 from nltk.tokenize import word_tokenize
@@ -54,7 +55,7 @@ class DataLoader:
 
         # Data cleaning as described in the Data Explorations notebook
         for dataset in dfs.keys():
-            dfs[dataset]['mistake_filter'] = df.statement.apply(lambda x: len(re.findall(r'\.json%%(mostly-true|true|half-true|false|barely-true|pants-fire)', re.sub(r"\t", "%%", x))))
+            dfs[dataset]['mistake_filter'] = dfs[dataset].statement.apply(lambda x: len(re.findall(r'\.json%%(mostly-true|true|half-true|false|barely-true|pants-fire)', re.sub(r'\t', '%%', x))))
             dfs[dataset] = dfs[dataset][dfs[dataset]['mistake_filter'] == 0]
             dfs[dataset].drop(columns='mistake_filter', inplace = True)
         
