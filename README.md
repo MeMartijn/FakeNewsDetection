@@ -3,8 +3,16 @@ In my thesis, I'm going to explore the following question: what is the performan
 This research will be focussed on applying transfer learning on [earlier research by Wang (2017)](https://arxiv.org/abs/1705.00648). Results of Wang will be used as a benchmark for performance. 
 
 ## Table of contents
-1. [Research questions](#rq)
-2. [Results](#results)
+1. [Requirements](#requirements)
+2. [Research questions](#rq)
+3. [Results](#results)
+
+<a name="requirements"/>
+
+## Requirements
+To run the code in the `code` folder, the following packages must be installed (using pip):
+- `flair`
+- `allennlp`
 
 <a name="rq"/>
 
@@ -16,6 +24,7 @@ Hypothesis: Transformer architectures perform better because the vectors created
 Hypothesis: because neural networks (especially Bi-LSTMs) keep track of sequences in the vector sequences, they outperform non-neural classification algorithms.
 
 <a name="results"/>
+
 ## (Interim) results
 |                     | Bag of Words                   | InferSent                      | ELMo | BERT | GPT-2 | Transformer-XL | MT-DNN |
 |---------------------|--------------------------------|--------------------------------|------|------|-------|----------------|--------|
