@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import re
+import nltk
 
 # Bag of Words imports
 from nltk.tokenize import word_tokenize
@@ -10,9 +11,14 @@ import string
 from sklearn.feature_extraction.text import CountVectorizer
 
 # InferSent imports
-import nltk
 import torch
 from models import InferSent
+
+# ELMo/BERT imports
+from flair.data import Sentence
+from flair.embeddings import ELMoEmbeddings, BertEmbeddings
+import os
+from nltk import tokenize
 
 class DataLoader:
     '''A class which holds functionality to load and interact with the data from the research article'''
@@ -238,7 +244,7 @@ class DataLoader:
 
         def init():
             '''Initialize all logic from the main function'''
-            # Check whether there is a file containing the InferSent data already present
+            # Check whether there is a file containing the ELMo data already present
             if elmo_dir in os.listdir(self.data_dir):
                 return {
                     dataset: pd.read_pickle(os.path.join(
