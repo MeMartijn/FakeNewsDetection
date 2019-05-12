@@ -13,6 +13,9 @@ This research will be focussed on applying transfer learning on [earlier researc
 To run the code in the `code` folder, the following packages must be installed (using pip):
 - `flair`
 - `allennlp`
+- `tensorflow`
+- `tensorflow_hub`
+- `pytorch`
 
 <a name="rq"/>
 
