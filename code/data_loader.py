@@ -227,14 +227,14 @@ class DataLoader:
             vector = []
             
             for sentence in sentences:
-            # Create a Sentence object for each sentence in the statement
-            sentence = Sentence(sentence, use_tokenizer = True)
+                # Create a Sentence object for each sentence in the statement
+                sentence = Sentence(sentence, use_tokenizer = True)
 
-            # embed words in sentence
-            embedding.embed(sentence)
-            vector.append([token.embedding.numpy() for token in sentence])
-            
-            return vector
+                # embed words in sentence
+                embedding.embed(sentence)
+                vector.append([token.embedding.numpy() for token in sentence])
+                
+                return vector
 
         def init():
             '''Initialize all logic from the main function'''
