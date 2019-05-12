@@ -221,17 +221,20 @@ class DataLoader:
         # Directory name for saving the datasets
         elmo_dir = 'elmo'
 
-        def create_dataframe(df, encoder):
-            '''Create an InferSent dataframe from another dataframe'''
-            # Create a dataframe from the transformed statements
-            new_df = pd.DataFrame(encoder.encode(df.statement, tokenize=True))
+        def create_embedding(statement, embedding):
+            '''Create an ELMo embedding from text'''
+            sentences = tokenize.sent_tokenize(statement)
+            vector = []
+            
+            for sentence in sentences:
+            # Create a Sentence object for each sentence in the statement
+            sentence = Sentence(sentence, use_tokenizer = True)
 
-            # Add referencing columns
-            new_df['label'] = list(df.label)
-            new_df['id'] = list(df.index)
-            new_df.set_index('id', inplace=True)
-
-            return new_df
+            # embed words in sentence
+            embedding.embed(sentence)
+            vector.append([token.embedding.numpy() for token in sentence])
+            
+            return vector
 
         def init():
             '''Initialize all logic from the main function'''
@@ -245,40 +248,24 @@ class DataLoader:
             else:
                 print('Creating ELMo representation and saving them as files...')
 
-                # Create a storage directory
-                os.mkdir(self.data_dir + '/' + elmo_dir)
+            # Create a storage directory
+            os.mkdir(self.data_dir + '/' + elmo_dir)
 
-                # Load pre-trained model
-                model_version = 2
-                MODEL_PATH = "encoder/infersent%s.pkl" % model_version
-                params_model = {'bsize': 64, 'word_emb_dim': 300, 'enc_lstm_dim': 2048,
-                                'pool_type': 'max', 'dpout_model': 0.0, 'version': model_version}
-                model = InferSent(params_model)
-                model.load_state_dict(torch.load(MODEL_PATH))
+            embedding = ELMoEmbeddings()
 
-                # Keep it on CPU or put it on GPU
-                use_cuda = False
-                model = model.cuda() if use_cuda else model
+            dfs = {
+                dataset:  self.df[dataset][['statement', 'label']]
+                for dataset in self.df.keys() 
+            }
+            
+            for dataset in dfs:
+                dfs[dataset]['statement'] = dfs[dataset]['statement'].map(lambda text: create_embedding(text, embedding))
 
-                # Set word vectors
-                W2V_PATH = os.path.join(
-                    self.data_dir, fasttext_dir, 'crawl-300d-2M.vec')
-                model.set_w2v_path(W2V_PATH)
+            # Save the datasets as pickle files
+            for dataset in dfs.keys():
+                dfs[dataset].to_pickle(os.path.join(self.data_dir, elmo_dir, dataset + '.pkl'))
+            print('Saved the datasets at ' + elmo_dir)
 
-                # Build vocabulary
-                model.build_vocab(self.all_statements, tokenize=True)
-
-                dfs = {
-                    dataset: create_dataframe(self.df[dataset], model)
-                    for dataset in self.df.keys()
-                }
-
-                # Save the datasets as pickle files
-                for dataset in dfs.keys():
-                    dfs[dataset].to_pickle(os.path.join(
-                        self.data_dir, elmo_dir, dataset + '.pkl'))
-                print('Saved the datasets at ' + elmo_dir)
-
-                return dfs
+            return dfs
 
         return init()
