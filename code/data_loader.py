@@ -275,3 +275,59 @@ class DataLoader:
             return dfs
 
         return init()
+
+    def get_bert(self):
+        '''Returns BERT representation of the dataset'''
+        # Directory name for saving the datasets
+        bert_dir = 'bert'
+
+        def create_embedding(statement, embedding):
+            '''Create an BERT embedding from text'''
+            sentences = tokenize.sent_tokenize(statement)
+            vector = []
+
+            for sentence in sentences:
+                # Create a Sentence object for each sentence in the statement
+                sentence = Sentence(sentence, use_tokenizer=True)
+
+                # embed words in sentence
+                embedding.embed(sentence)
+                vector.append([token.embedding.numpy() for token in sentence])
+
+                return vector
+
+        def init():
+            '''Initialize all logic from the main function'''
+            # Check whether there is a file containing the BERT data already present
+            if bert_dir in os.listdir(self.data_dir):
+                return {
+                    dataset: pd.read_pickle(os.path.join(
+                        self.data_dir, bert_dir, dataset + '.pkl'))
+                    for dataset in self.df.keys()
+                }
+            else:
+                print('Creating BERT representation and saving them as files...')
+
+            embedding = BertEmbeddings()
+
+            dfs = {
+                dataset:  self.df[dataset][['statement', 'label']]
+                for dataset in self.df.keys()
+            }
+
+            for dataset in dfs:
+                dfs[dataset]['statement'] = dfs[dataset]['statement'].map(
+                    lambda text: create_embedding(text, embedding))
+
+            # Create a storage directory
+            os.mkdir(self.data_dir + '/' + bert_dir)
+            
+            # Save the datasets as pickle files
+            for dataset in dfs.keys():
+                dfs[dataset].to_pickle(os.path.join(
+                    self.data_dir, bert_dir, dataset + '.pkl'))
+            print('Saved the datasets at ' + bert_dir)
+
+            return dfs
+
+        return init()
