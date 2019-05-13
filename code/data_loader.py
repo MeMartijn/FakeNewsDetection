@@ -161,15 +161,17 @@ class DataLoader:
                 print('Please refer to the InferSent installation instructions over here: https://github.com/facebookresearch/InferSent')
                 raise ValueError('Please run the following command and rerun this function: !curl -Lo encoder/infersent2.pickle https://dl.fbaipublicfiles.com/senteval/infersent/infersent2.pkl')
 
+        def create_embedding(statement, encoder):
+            '''Create an InferSent embedding from text'''
+            sentences = tokenize.sent_tokenize(statement)
+            return [encoder.encode(sentence, tokenize = True) for sentence in sentences]
+        
         def create_dataframe(df, encoder):
             '''Create an InferSent dataframe from another dataframe'''
-            # Create a dataframe from the transformed statements
-            new_df = pd.DataFrame(encoder.encode(df.statement, tokenize = True))
+            new_df = df[['label', 'statement']]
 
-            # Add referencing columns
-            new_df['label'] = list(df.label)
-            new_df['id'] = list(df.index)
-            new_df.set_index('id', inplace=True)
+            # Create a dataframe with the transformed statements
+            new_df['statement'] = new_df['statement'].map(lambda statement: create_embedding(statement, encoder))
 
             return new_df
 
@@ -186,9 +188,6 @@ class DataLoader:
 
                 # Check whether model requirements are met
                 check_requirements()
-
-                # Create a storage directory
-                os.mkdir(self.data_dir + '/' + infersent_dir)
 
                 # Load pre-trained model
                 model_version = 2
@@ -212,6 +211,9 @@ class DataLoader:
                     dataset: create_dataframe(self.df[dataset], model)
                     for dataset in self.df.keys()
                 }
+
+                # Create a storage directory
+                os.mkdir(self.data_dir + '/' + infersent_dir)
 
                 # Save the datasets as pickle files
                 for dataset in dfs.keys():
@@ -321,7 +323,7 @@ class DataLoader:
 
             # Create a storage directory
             os.mkdir(self.data_dir + '/' + bert_dir)
-            
+
             # Save the datasets as pickle files
             for dataset in dfs.keys():
                 dfs[dataset].to_pickle(os.path.join(
