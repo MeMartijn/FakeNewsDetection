@@ -212,15 +212,18 @@ class DataLoader:
                     for dataset in self.df.keys()
                 }
 
-                # Create a storage directory
-                os.mkdir(self.data_dir + '/' + infersent_dir)
+                try:
+                    # Create a storage directory
+                    os.mkdir(self.data_dir + '/' + infersent_dir)
 
-                # Save the datasets as pickle files
-                for dataset in dfs.keys():
-                    dfs[dataset].to_pickle(os.path.join(self.data_dir, infersent_dir, dataset + '.pkl'))
-                print('Saved the datasets at ' + infersent_dir)
+                    # Save the datasets as pickle files
+                    for dataset in dfs.keys():
+                        dfs[dataset].to_pickle(os.path.join(self.data_dir, infersent_dir, dataset + '.pkl'))
+                    print('Saved the datasets at ' + infersent_dir)
 
-                return dfs
+                    return dfs
+                except:
+                    return dfs
 
         return init()
 
