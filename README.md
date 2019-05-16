@@ -5,7 +5,6 @@ This research will be focussed on applying transfer learning on [earlier researc
 ## Table of contents
 1. [Requirements](#requirements)
 2. [Research questions](#rq)
-3. [Results](#results)
 
 <a name="requirements"/>
 
@@ -16,6 +15,7 @@ To run the code in the `code` folder, the following packages must be installed (
 - `tensorflow`
 - `tensorflow_hub`
 - `pytorch`
+- `pytorch_pretrained_bert`
 
 <a name="rq"/>
 
@@ -25,13 +25,3 @@ Hypothesis: Transformer architectures perform better because the vectors created
 
 ### Q2: How well do neural network architecture classify fake news compared to non-neural classification algorithms?
 Hypothesis: because neural networks (especially Bi-LSTMs) keep track of sequences in the vector sequences, they outperform non-neural classification algorithms.
-
-<a name="results"/>
-
-## (Interim) results
-|                     | Bag of Words                   | InferSent                      | ELMo | BERT | GPT-2 | Transformer-XL | MT-DNN |
-|---------------------|--------------------------------|--------------------------------|------|------|-------|----------------|--------|
-| SVM                 | Test: 0.226; Validation: 0.247 | Test: 0.000; Validation: 0.000 |      |      |       |                |        |
-| Logistic regression | Test: 0.249; Validation: 0.251 | Test: 0.245; Validation: 0.247 |      |      |       |                |        |
-| Bi-LSTM             |                                |                                |      |      |       |                |        |
-| CNN                 |                                |                                |      |      |       |                |        |
