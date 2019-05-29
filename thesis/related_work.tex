@@ -43,4 +43,14 @@ Apart from controlling the size of the feature dimension, padding has other uses
 Simard et al. make use of sequence padding for convolutional neural networks to center feature units, and concluded it did not impact the performance of the classifier significantly \cite{simard2003}. 
 Wen et al. apply padding to convolutional network models to prevent dimension loss \cite{wen2018}. 
 
-\subsection{Neural text classifiers versus linear text classifiers}
+\subsection{Neural text classifiers}
+Wang has shown that neural networks perform slightly better on classifying fake news than linear classifiers. 
+In his research, he compared accuracies on support vector machines, logistic regressions, bidirectional LSTMs and convolutional neural networks with each other.
+With his 6 label classification, his support vector machine implementation was the best performing linear classifier, but the performance was slightly worse than the best performing neural network (0.258 for the former, and 0.260 for the latter) \cite{wang2018}.
+
+Wang used two neural network architectures both well known for their robustness and performance when it comes to text classification. 
+The first model, the bidirectional Long Short Term Memory (LSTM) networks, are specifically tailored at keeping track of information for a long period of time. 
+This makes those models able to keep track of the context in a more intelligent way when compared to a standard non-neural classification algorithm \cite{olah2015}. 
+
+The second architecture, the convolutional neural network, apply a set of filters in its layers to local features. 
+These models are shown to be effective in numerous natural language processing applications, such as semantic parsing, search query retrieval, sentence modeling and other traditional NLP tasks \cite{kim2014}.  
