@@ -31,11 +31,16 @@ They have shown that a max pooling operation is vastly superior for capturing in
 
 Shen et al. noted that in text classification, only a small number of key words contribute to the final prediction.
 As a result, simple pooling operations are surprisingly effective for representing documents \cite{shen2018}.  
-Lai et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015}\cite{zhang2015}. 
+Lai et al., Hu et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015}\cite{hu2014}\cite{zhang2015}. 
 In the case of text classification, max pooling strategies seem to be the most popular. 
 
 \subsection{Padding}
+When padding a sequence, a list of sequences is transformed to a specific length. 
+Sequences longer than the desired length will be truncated to fit the requirement, while sequences shorter than the desired length will be padded by a specified value \cite{keraspad}. 
+To fill the sequences, a value of zero is often used. Hu et al. also use zero values for padding their sequences \cite{hu2014}. 
 
-
+Apart from controlling the size of the feature dimension, padding has other uses as well. 
+Simard et al. make use of sequence padding for convolutional neural networks to center feature units, and concluded it did not impact the performance of the classifier significantly \cite{simard2003}. 
+Wen et al. apply padding to convolutional network models to prevent dimension loss \cite{wen2018}. 
 
 \subsection{Neural text classifiers versus linear text classifiers}
