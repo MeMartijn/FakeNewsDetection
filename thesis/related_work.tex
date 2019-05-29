@@ -1,26 +1,41 @@
 \section{Related Work}
+\subsection{Automatic fake news detection}
+There have been several attempts in the past to create classifiers for automatic detection of lies and fake news. 
+Wang used both linear and neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
+Furthermore, he added speaker metadata to improve the result of his classifications \cite{wang2018}.
 
-\subsection{RQ1}
-Fake news as a term only caught public attention starting from the end of 2016, during the Presidential Elections of the United States \cite{googletrends2019}.   
+From the same dataset, Khurana extracted linguistic features such as n-grams, sentiment, number of capital letters and POS tags to classify the data into 3 labels instead of the original 6 labels. 
+For classification, she used a set of non-neural classifiers \cite{khurana2017}.
 
-\subsection{RQ2}
-In the last couple of years, using transfer learning for natural language processing has given promisable results. The following sentence embeddings will be used to detect fake news:
+The British factchecking organization Full Fact has developed an architecture that is able to monitor and factcheck statements from the British Parliament and major media outlets in the United Kingdom. 
+It can automatically factcheck the accuracy of statistical claims, for example \cite{babakar2016}.
+For detecting factual claims from texts, the organization uses InferSent, which is a way of transfer learning that has been proved to perform well for the use case of Full Fact \cite{pydata2018}.
 
-\begin{itemize}
-    \item Bag of Words as a baseline for performance of non-pretrained embeddings;
-    \item Facebook's InferSent \cite{conneau2017};
-    \item ELMo from the Allen Institute for Artificial Intelligence \cite{peters2018};
-    \item OpenAI's GPT-2 \cite{radford2019};
-    \item Transformer-XL \cite{dai2019};
-    \item Microsoft's MT-DNN  \cite{liu2019};
-    \item and Google's BERT \cite{devlin2018}.
-\end{itemize}
+Various tools with regards to fake news detection are also available. 
+Faker Fact is a tool which can classify texts into a set of categories ranging from satire to agenda-driven, the former identifying humorous intent, the later identifying manipulation \cite{fakerfact}. 
+Hoaxy, on the other hand, allows for the visualization of unverified claims through Twitter networks \cite{shao2016}. 
 
-\subsection{RQ3}
-Aligned with the original research on this dataset by Wang \cite{wang2018}, the following machine learning algorithms will be used to test the applicability of the abovementioned embedding techniques: 
-\begin{itemize}
-    \item SVMs;
-    \item Logistic regression;
-    \item Bi-LSTMs;
-    \item CNNs.
-\end{itemize}
+\subsection{Pooling}
+Linear classifiers need data in a two-dimensional shape to be able to perform calculations. 
+In the case of raw text data, sentences in the dataset have variable word lengths, resulting in a different vector length when turning the text into a vector representation.
+To turn the vector representations into a uniform length, we can either cut off the vectors at a fixed length (\textit{padding}), or we can perform calculations to reduce the length of the vectors (\textit{pooling}).
+
+In computer vision, feature pooling is used to reduce noise in data. 
+The goal of this step is to transform joint feature representations into a new, more usable one that preserves important information while discarding irrelevant details. 
+Pooling techniques such as max pooling and average pooling perform mathematical operations to reduce several numbers into one \cite{boureau2010}. 
+In the case of transforming the shape of the data, we can reduce vectors to the smallest vector in the dataset to create a uniform shape.
+
+Scherer et al. compared performance of two pooling operations on a convolutional neural network architecture. 
+The first pooling method extracted maximums and the second one was primarily based on working with averages.
+They have shown that a max pooling operation is vastly superior for capturing invariances in image-like data \cite{scherer2010}.
+
+Shen et al. noted that in text classification, only a small number of key words contribute to the final prediction.
+As a result, simple pooling operations are surprisingly effective for representing documents \cite{shen2018}.  
+Lai et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015}\cite{zhang2015}. 
+In the case of text classification, max pooling strategies seem to be the most popular. 
+
+\subsection{Padding}
+
+
+
+\subsection{Neural text classifiers versus linear text classifiers}
