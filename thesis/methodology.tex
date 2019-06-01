@@ -8,7 +8,7 @@ For classifying fake news, Wang's Liar dataset will be used \cite{wang2018}.
 The Liar dataset contains 12.791 short statements from Politifact.com, which are labeled manually by a Politifact.com editor on truthfulness. 
 The statements are an average of 18 tokens long, and the topics vary from different political subjects, as can be seen in figure 1\todo{Check whether this number is still correct}.
 Truthfulness is evaluated by assigning one of 6 labels, ranging from \textit{pants-on-fire} to \textit{true}. 
-The distribution of statements across labels can be seen in figure X\todo{Create a figure comparing distributions of labels before and after preprocessing and insert the right figure number}. 
+The distribution of statements across labels can be seen in figure 3\todo{Check whether this number is still correct}.
 
 \begin{figure}[h]
     \centering
@@ -44,7 +44,17 @@ After applying this regular expression, the total amount of sentences in the sta
 
 \subsubsection{Reducing labels}
 
+Wang's main objective was to classify fake news into a fine-grained category of fakeness. 
+His best model obtained a 27\% accuracy on the validation set \cite{wang2018}.
+For our main research question, we only aim to predict whether the statements are fake news or not. 
+Because of this, for the rest of this research, the prediction labels from the original dataset will be reduced from 6 labels to 3 labels, according to the recoding schema used by Khurana \cite{khurana2017}.
+The 6 labels are reduced to the following 3 labels: \texttt{true}, \texttt{half-true} and \texttt{false}.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{labeldistribution}
+    \caption{Distribution of the statements over the labels, before and after reducing the labels from 6 to 3.}
+\end{figure}
 
 
 \subsection{Methods}
