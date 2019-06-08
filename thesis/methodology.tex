@@ -44,18 +44,25 @@ After applying this regular expression, the total amount of sentences in the sta
 
 \subsubsection{Reducing labels}
 
-Wang's main objective was to classify fake news into a fine-grained category of fakeness. 
-His best model obtained a 27\% accuracy on the validation set \cite{wang2018}.
-For our main research question, we only aim to predict whether the statements are fake news or not. 
-Because of this, for the rest of this research, the prediction labels from the original dataset will be reduced from 6 labels to 3 labels, according to the recoding schema used by Khurana \cite{khurana2017}.
+Wang's main objective was to classify fake news into a fine-grained category of fakeness \cite{wang2018}.
+For our main research question, we aim to predict whether the statements are fake news or not. 
+Because of this, for the rest of this research, the prediction labels from the original dataset will be reduced from 6 labels to 2 labels, according to the recoding schema used by Khurana \cite{khurana2017}.
 The 6 labels are reduced to the following 3 labels: \texttt{true}, \texttt{half-true} and \texttt{false}.
 
-\begin{figure}[h]
+\begin{table}[]
     \centering
-    \includegraphics[scale=0.5]{labeldistribution}
-    \caption{Distribution of the statements over the labels, before and after reducing the labels from 6 to 3.}
-\end{figure}
-
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{6 labels}                                              & \textbf{3 labels}                                                          & \textbf{2 labels}                                                          \\ \hline
+        \begin{tabular}[c]{@{}l@{}}true\\ (16.1\%)\end{tabular}        & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}true\\ (35,3\%)\end{tabular}}   & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}true\\ (55,8\%)\end{tabular}}   \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}mostly-true\\ (19.2\%)\end{tabular} &                                                                            &                                                                            \\ \cline{1-2}
+        \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}   & \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}               &                                                                            \\ \hline
+        \begin{tabular}[c]{@{}l@{}}barely-true\\ (16.4\%)\end{tabular} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}false\\ (44,19\%)\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}false\\ (44,19\%)\end{tabular}} \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}false\\ (19.6\%)\end{tabular}       &                                                                            &                                                                            \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}pants-fire\\ (8.19\%)\end{tabular}  &                                                                            &                                                                            \\ \hline
+    \end{tabular}
+    \caption{Distribution of labels from the original label distribution when reducing the amount of labels.}
+\end{table}
 
 \subsection{Methods}
 % Hoe je je vraag gaat beantwoorden.
