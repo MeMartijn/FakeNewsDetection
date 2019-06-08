@@ -2,10 +2,13 @@
 \subsection{Automatic fake news detection}
 There have been several attempts in the past to create classifiers for automatic detection of lies and fake news. 
 Wang used both linear and neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
-Furthermore, he added speaker metadata to improve the result of his classifications \cite{wang2018}.
+Furthermore, he added speaker metadata to improve the result of his classifications.
+Both with and without introducing speaker metadata, the best performing architecture was found to be a convolutional neural network. 
+With an accuracy of 27\% without, and 27,4\% with metadata on the test set, Wang was able to perform 6,2\% and 6,6\% better than the majority baseline of 20,8\%\cite{wang2018}.
 
 From the same dataset, Khurana extracted linguistic features such as n-grams, sentiment, number of capital letters and POS tags to classify the data into 3 labels instead of the original 6 labels. 
-For classification, she used a set of non-neural classifiers \cite{khurana2017}.
+For classification, she used a set of non-neural classifiers. 
+Her best performing classifier, using gradient boosting, obtained an accuracy of 49,03\%, which performed around 5\% better than the majority baseline of 44,28\% \cite{khurana2017}.
 
 The British factchecking organization Full Fact has developed an architecture that is able to monitor and factcheck statements from the British Parliament and major media outlets in the United Kingdom. 
 It can automatically factcheck the accuracy of statistical claims, for example \cite{babakar2016}.
@@ -46,7 +49,7 @@ Wen et al. apply padding to convolutional network models to prevent dimension lo
 \subsection{Neural text classifiers}
 Wang has shown that neural networks perform slightly better on classifying fake news than linear classifiers. 
 In his research, he compared accuracies on support vector machines, logistic regressions, bidirectional LSTMs and convolutional neural networks with each other.
-With his 6 label classification, his support vector machine implementation was the best performing linear classifier, but the performance was slightly worse than the best performing neural network (0.258 for the former, and 0.260 for the latter) \cite{wang2018}.
+With his 6 label classification, his support vector machine implementation was the best performing linear classifier, but the performance was slightly worse than the best performing neural network (25,8\% for the former, and 26\% for the latter) \cite{wang2018}.
 
 Wang used two neural network architectures both well known for their robustness and performance when it comes to text classification. 
 The first model, the bidirectional Long Short Term Memory (LSTM) networks, are specifically tailored at keeping track of information for a long period of time. 
