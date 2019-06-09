@@ -80,6 +80,9 @@ class FlairEncoder:
                 # Create a location to save the datasets as pickle files
                 os.mkdir(os.path.join(data_dir, embedding_dir))
 
+                # Activate embedding
+                embedding = embedding()
+
                 # Apply embedding
                 for dataset in dfs:
                     # Apply transformation
@@ -326,7 +329,7 @@ class DataLoader:
         # Attach all function references
         self.get_bow = get_bow
         self.get_infersent = get_infersent
-        self.get_bert = FlairEncoder(BertEmbeddings(), self.data_dir, self.df)
-        self.get_elmo = FlairEncoder(ELMoEmbeddings(), self.data_dir, self.df)
-        self.get_transformerxl = FlairEncoder(TransformerXLEmbeddings(), self.data_dir, self.df)
-        self.get_gpt = FlairEncoder(OpenAIGPTEmbeddings(), self.data_dir, self.df)
+        self.get_bert = FlairEncoder(BertEmbeddings, self.data_dir, self.df)
+        self.get_elmo = FlairEncoder(ELMoEmbeddings, self.data_dir, self.df)
+        self.get_transformerxl = FlairEncoder(TransformerXLEmbeddings, self.data_dir, self.df)
+        self.get_gpt = FlairEncoder(OpenAIGPTEmbeddings, self.data_dir, self.df)
