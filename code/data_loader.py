@@ -37,7 +37,7 @@ class FlairEncoder:
         def get_embedding_dir(embedding):
             '''Turn the name of the embedding technique into a specific folder'''
             # Remove 'Embeddings' from the embedding name and lowercase it
-            return embedding.__name__[:-10].lower()
+            return embedding[:-10].lower()
 
         def create_embedding(statement, embedding):
             '''Create a single embedding from a piece of text'''
@@ -81,7 +81,7 @@ class FlairEncoder:
                 os.mkdir(os.path.join(data_dir, embedding_dir))
 
                 # Activate embedding
-                embedding = embedding()
+                embedding = eval(embedding + '()')
 
                 # Apply embedding
                 for dataset in dfs:
@@ -326,10 +326,14 @@ class DataLoader:
 
             return init()
 
+        def get_flair_embedding(embedding, data_dir, dfs):
+            encoder = FlairEncoder(embedding, self.data_dir, self.df)
+            return encoder.get_embedded_dataset
+
         # Attach all function references
         self.get_bow = get_bow
         self.get_infersent = get_infersent
-        self.get_bert = FlairEncoder(BertEmbeddings, self.data_dir, self.df)
-        self.get_elmo = FlairEncoder(ELMoEmbeddings, self.data_dir, self.df)
-        self.get_transformerxl = FlairEncoder(TransformerXLEmbeddings, self.data_dir, self.df)
-        self.get_gpt = FlairEncoder(OpenAIGPTEmbeddings, self.data_dir, self.df)
+        self.get_bert = get_flair_embedding('BertEmbeddings', self.data_dir, self.df)
+        self.get_elmo = get_flair_embedding('ELMoEmbeddings', self.data_dir, self.df)
+        self.get_transformerxl = get_flair_embedding('TransformerXLEmbeddings', self.data_dir, self.df)
+        self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
