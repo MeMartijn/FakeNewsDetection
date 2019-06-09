@@ -24,6 +24,86 @@ from nltk import tokenize
 # GTP-2 imports
 from pytorch_pretrained_bert import GPT2Tokenizer, GPT2Model, GPT2LMHeadModel
 
+
+class FlairEncoder:
+    '''An interface for interacting with Zalando's Flair library'''
+    def __init__(self, embedding, data_dir, data):
+        # Prepare tqdm loops
+        tqdm.pandas()
+
+        # Save variables to class
+        self.embedding = embedding
+        self.data_dir = data_dir
+        self.dfs = data
+
+    def get_embedded_dataset(self):
+        '''Return the embedding representation of the dataset'''
+        def get_embedding_dir(embedding):
+            '''Turn the name of the embedding technique into a specific folder'''
+            # Remove 'Embeddings' from the embedding name and lowercase it
+            return embedding.__name__[:-10].lower()
+
+        def create_embedding(statement, embedding):
+            '''Create a single embedding from a piece of text'''
+            # Split all sentences
+            sentences = tokenize.sent_tokenize(statement)
+
+            # Create an array for storing the embeddings
+            vector = []
+
+            # Loop over all sentences and apply embedding
+            for sentence in sentences:
+                # Create a Sentence object for each sentence in the statement
+                sentence = Sentence(sentence, use_tokenizer = True)
+
+                # Embed words in sentence
+                embedding.embed(sentence)
+                vector.append([token.embedding.numpy() for token in sentence])
+
+            return vector
+        
+        def encode_datasets(embedding_dir, data_dir, dfs, embedding):
+            '''Return all datasets with embeddings instead of texts'''
+            # Check whether there already is a file containing the embeddings
+            if embedding_dir in os.listdir(data_dir):
+                # Return the previously made embeddings
+                return {
+                    dataset: pd.read_pickle(os.path.join(
+                        data_dir, embedding_dir, dataset + '.pkl'
+                    )) for dataset in dfs.keys()
+                }
+            else:
+                print('Creating representations and saving them as files...')
+
+                # Reformat dataframes to only contain the label and statement
+                dfs = {
+                    dataset:  dfs[dataset][['statement', 'label']]
+                    for dataset in dfs.keys()
+                }
+
+                # Create a location to save the datasets as pickle files
+                os.mkdir(os.path.join(data_dir, embedding_dir))
+
+                # Apply embedding
+                for dataset in dfs:
+                    # Apply transformation
+                    dfs[dataset]['statement'] = dfs[dataset]['statement'].progress_map(
+                        lambda text: create_embedding(text, embedding)
+                    )
+
+                    # Save the dataset as pickle file
+                    file_path = os.path.join(data_dir, elmo_dir, dataset + '.pkl')
+                    dfs[dataset].to_pickle(file_path)
+                    print('Saved ' + dataset + '.pkl at ' + file_path)
+                
+                return dfs
+        
+        # Directory name for saving the datasets
+        embedding_dir = get_embedding_dir(self.embedding)
+
+        return encode_datasets(embedding_dir, self.data_dir, self.dfs, self.embedding)
+
+
 class DataLoader:
     '''A class which holds functionality to load and interact with the data from the research article'''
     def __init__(self):
@@ -252,7 +332,7 @@ class DataLoader:
                 embedding.embed(sentence)
                 vector.append([token.embedding.numpy() for token in sentence])
                 
-                return vector
+            return vector
 
         def init():
             '''Initialize all logic from the main function'''
