@@ -17,7 +17,7 @@ from models import InferSent
 
 # ELMo/BERT imports
 from flair.data import Sentence
-from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings
+from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings
 import os
 from nltk import tokenize
 
@@ -81,7 +81,15 @@ class FlairEncoder:
                 os.mkdir(os.path.join(data_dir, embedding_dir))
 
                 # Activate embedding
-                embedding = eval(embedding + '()')
+                if embedding_dir == 'flair':
+                    # Flair's recommended usage is different from other embedding techniques
+                    embedding = StackedEmbeddings([
+                        WordEmbeddings('glove'),
+                        FlairEmbeddings('news-forward'),
+                        FlairEmbeddings('news-backward'),
+                    ])
+                else:
+                    embedding = eval(embedding + '()')
 
                 # Apply embedding
                 for dataset in dfs:
@@ -337,3 +345,4 @@ class DataLoader:
         self.get_elmo = get_flair_embedding('ELMoEmbeddings', self.data_dir, self.df)
         self.get_transformerxl = get_flair_embedding('TransformerXLEmbeddings', self.data_dir, self.df)
         self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
+        self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
