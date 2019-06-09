@@ -91,7 +91,7 @@ class FlairEncoder:
                     )
 
                     # Save the dataset as pickle file
-                    file_path = os.path.join(data_dir, elmo_dir, dataset + '.pkl')
+                    file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
                     dfs[dataset].to_pickle(file_path)
                     print('Saved ' + dataset + '.pkl at ' + file_path)
                 
