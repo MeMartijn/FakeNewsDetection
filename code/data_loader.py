@@ -21,10 +21,6 @@ from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbedd
 import os
 from nltk import tokenize
 
-# GTP-2 imports
-from pytorch_pretrained_bert import GPT2Tokenizer, GPT2Model, GPT2LMHeadModel
-
-
 class FlairEncoder:
     '''An interface for interacting with Zalando's Flair library'''
     def __init__(self, embedding, data_dir, data):
