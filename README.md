@@ -16,6 +16,7 @@ To run the code in the `code` folder, the following packages must be installed (
 - `tensorflow_hub`
 - `pytorch`
 - `pytorch_pretrained_bert`
+- `spacy`
 
 <a name="rq"/>
 
