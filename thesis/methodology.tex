@@ -17,10 +17,33 @@ The distribution of statements across labels can be seen in figure 3\todo{Check 
 \end{figure}
 
 For each statement, the dataset contains an id, a label, a subject, a speaker, the function title of the speaker, the affiliated state and political affiliation, the context of the statement and a vector with a truthfulness history.
+An example of such a data entry can be seen in table 1.\todo{Check whether this number is still correct}
 Wang introduced this truthfulness history to boost the prediction scores, as speakers with a track record of lying are expected to have a lower chance of speaking the truth when classifying new statements.
 However, for our application we are only interested in the statement itself and its corresponding label. 
 Due to cheapness and spreadability, a large amount of fake news is spread over social media \cite{shu2017}. 
 This means author information and metadata will not readily be available in real world circumstances.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{ll}
+        \hline
+        id                     & 11044.json                                                      \\ \hline
+        label                  & pants-fire                                                      \\ \hline
+        statement              & The Mexican government forces many bad people into our country. \\ \hline
+        subjects               & foreign-policy,immigration                                      \\ \hline
+        speaker                & donald-trump                                                    \\ \hline
+        speaker\_job           & President-Elect                                                 \\ \hline
+        state                  & New York                                                        \\ \hline
+        party                  & republican                                                      \\ \hline
+        context                & an interview with NBC's Katy Tur                                \\ \hline
+        mostly\_true\_count    & 37                                                              \\ \hline
+        half\_true\_count      & 51                                                              \\ \hline
+        barely\_true\_count    & 63                                                              \\ \hline
+        false\_count           & 114                                                             \\ \hline
+        pants\_on\_fire\_count & 61                                                              \\ \hline
+    \end{tabular}
+    \caption{An example entry in the Liar dataset.}
+\end{table}
 
 The original dataset has been split beforehand into a test, train and validation set. 
 The train set contains 80\% of the total amount of statements, while the test and validation set both contain approximately 10\% of the statements. 
