@@ -16,7 +16,28 @@ For detecting factual claims from texts, the organization uses InferSent, which 
 
 Various tools with regards to fake news detection are also available. 
 Faker Fact is a tool which can classify texts into a set of categories ranging from satire to agenda-driven, the former identifying humorous intent, the latter identifying manipulation \cite{fakerfact}. 
-Hoaxy, on the other hand, allows for the visualization of unverified claims through Twitter networks \cite{shao2016}. 
+Hoaxy, on the other hand, allows for the visualization of unverified claims through Twitter networks \cite{shao2016}.
+
+\subsection{Pre-trained textual embeddings}
+Traditionally, feature representation for text classification is often based on the bag-of-words model, containing linguistic patterns as features, such as unigrams, bigrams or n-grams.
+However, these approaches completely ignore contextual information or word order in texts, and are unable to capture semantics of words. 
+As a result, classifiers may be unable to correctly identify patterns, affecting the classification accuracy \cite{lai2015}.
+
+As an answer to these problems, pre-trained text embeddings have been rising in popularity, both in use and in research.
+Before classification is possible, text data needs to be transformed into numbers to be able to be interpreted by classifier algorithms.
+Fundamentally, text embeddings are vector representations of linguistic structures, allowing for usage of text in classifiers. 
+The process of turning words into these embeddings is typically powered by statistics gathered from large unlabeled corpora of text data \cite{mikolov2017}.
+
+In 2017, Vaswani et al. proposed a novel architecture for embedding text data called the Transformer. 
+With the main aim originally being translation from one sentence in some language to another sentence in another language, Transformers are based on an encoder-decoder model.
+These models take the sequence of input words, convert it to an intermediate representation, after which the decoder creates an output sequence.
+
+The main strength of the Transformer architecture is its focus on attention to create the intermediate representation.
+The encoder receives a sequence of inputs, and reads it at once, as opposed to sequentially (either from left to right or from right to left, as humans do). 
+This allows the encoder to learn the context of a word based on all of the surrounding text \cite{vaswani2017}.
+
+Inspired by the Transformer architecture, numerous new text embedding techniques have been developed which give the possibility to classify texts by making use of the intermediate representation of the Transformer model.
+As shown by the Bidirectional Encoder Representations from Transformer (BERT) model by Devlin et al., these techniques have beaten existing benchmarks in natural language processing, underlining the importance of context in text embeddings \cite{devlin2018}. 
 
 \subsection{Pooling}
 Linear classifiers need data in a two-dimensional shape to be able to perform calculations. 
