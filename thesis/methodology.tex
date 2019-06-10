@@ -90,6 +90,19 @@ This way, we can better compare performance of pre-trained embeddings to existin
 % Probeer er een lopend verhaal van te maken.
 % Het is heel handig dit ook weer op te delen nav je deelvragen:
 
+\subsection{Applying embedding techniques}
+As our main research question is focussed on pre-trained word embeddings, the first step in the classification process is to turn the statements of the Liar dataset into vectors. 
+For this purpose, the Flair framework will be used. 
+Flair contains interfaces for turning words into embeddings, built on the PyTorch platform \cite{flairrepo}\cite{pytorch}. 
+Using Flair, we have access to the following 5 state-of-the-art pre-trained embedding techniques: 
+\begin{itemize}
+    \item ELMo (Embeddings from Language Models) \cite{peters2018};
+    \item BERT \cite{devlin2018};
+    \item Generative Pre-Training (GPT) \cite{rad};
+    \item Transformer-XL \cite{dai2019};
+    \item Flair \cite{akbik2019}.
+\end{itemize}
+
 \subsubsection{RQ1}
 
 \subsubsection{RQ2}
