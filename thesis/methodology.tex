@@ -98,13 +98,13 @@ Using Flair, we have access to the following 5 state-of-the-art pre-trained embe
 \begin{itemize}
     \item ELMo (Embeddings from Language Models) \cite{peters2018};
     \item BERT \cite{devlin2018};
-    \item Generative Pre-Training (GPT) \cite{rad};
+    \item Generative Pre-Training (GPT) \cite{radford2018};
     \item Transformer-XL \cite{dai2019};
     \item Flair \cite{akbik2019}.
 \end{itemize}
 
 To apply these embeddings, the Flair framework first requires a sentence object to be created \cite{flairsentence}.
-For dividing the statements into sentences, the \texttt{sent_tokenize} function from the \texttt{nltk} package will be used \cite{nltk}. 
+For dividing the statements into sentences, the \texttt{sent\_tokenize} function from the \texttt{nltk} package will be used \cite{nltktokenize}. 
 After applying this split, Flair's sentence object takes care of tokenization and applying the selected embedding technique.
 
 \subsubsection{RQ1}
