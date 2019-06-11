@@ -62,12 +62,25 @@ class FlairEncoder:
             '''Return all datasets with embeddings instead of texts'''
             # Check whether there already is a file containing the embeddings
             if embedding_dir in os.listdir(data_dir):
-                # Return the previously made embeddings
-                return {
-                    dataset: pd.read_pickle(os.path.join(
-                        data_dir, embedding_dir, dataset + '.pkl'
-                    )) for dataset in dfs.keys()
-                }
+                if embedding_dir == 'flair':
+                    # Flair's training set is divided into two pickle files
+                    return {
+                        dataset: (pd.read_pickle(os.path.join(data_dir, embedding_dir, dataset + '.pkl')) 
+                            if dataset != 'train' else 
+                            pd.concat([
+                                pd.read_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset1.pkl')),
+                                pd.read_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset2.pkl'))
+                                ]
+                            ))
+                        for dataset in dfs.keys()
+                    }
+                else:
+                    # Return the previously made embeddings
+                    return {
+                        dataset: pd.read_pickle(os.path.join(
+                            data_dir, embedding_dir, dataset + '.pkl'
+                        )) for dataset in dfs.keys()
+                    }
             else:
                 print('Creating representations and saving them as files...')
 
@@ -98,10 +111,23 @@ class FlairEncoder:
                         lambda text: create_embedding(text, embedding)
                     )
 
-                    # Save the dataset as pickle file
-                    file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
-                    dfs[dataset].to_pickle(file_path)
-                    print('Saved ' + dataset + '.pkl at ' + file_path)
+                    if embedding_dir == 'flair' and dataset == 'train':
+                        # Flair produces files too large: we need to split them before being able to save as files
+                        total_length = len(dfs[dataset])
+                        split = round(total_length / 2)
+                        flair_subset1 = dfs[dataset].iloc[0:split]
+                        flair_subset2 = dfs[dataset].iloc[split:]
+
+                        # Save both as files
+                        flair_subset1.to_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset1.pkl'))
+                        flair_subset2.to_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset2.pkl'))
+
+                        print('Because of the file size, the training set has been split and saved in two seperate files.')
+                    else: 
+                        # Save the dataset as pickle file
+                        file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
+                        dfs[dataset].to_pickle(file_path)
+                        print('Saved ' + dataset + '.pkl at ' + file_path)
                 
                 return dfs
         
