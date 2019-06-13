@@ -90,7 +90,7 @@ This way, we can better compare performance of pre-trained embeddings to existin
 % Probeer er een lopend verhaal van te maken.
 % Het is heel handig dit ook weer op te delen nav je deelvragen:
 
-\subsection{Applying embedding techniques}
+\subsubsection{Applying embedding techniques}
 As our main research question is focussed on pre-trained word embeddings, the first step in the classification process is to turn the statements of the Liar dataset into vectors. 
 For this purpose, the Flair framework will be used. 
 Flair contains interfaces for turning words into embeddings, built on the PyTorch platform \cite{flairrepo}\cite{pytorch}. 
@@ -106,6 +106,25 @@ Using Flair, we have access to the following 5 state-of-the-art pre-trained embe
 To apply these embeddings, the Flair framework first requires a sentence object to be created \cite{flairsentence}.
 For dividing the statements into sentences, the \texttt{sent\_tokenize} function from the \texttt{nltk} package will be used \cite{nltktokenize}. 
 After applying this split, Flair's sentence object takes care of tokenization and applying the selected embedding technique.
+
+\paragraph{Embeddings from Language Models (ELMo)}
+The first word embedding technique, ELMo, is based on a bidirectional language model. 
+ELMo embeddings are different from regular word embeddings, because each token is a function of the entire input sentence.
+The underlying neural network architecture consists of a bidirectional LSTM trained on a large corpus.
+This corpus contained approximately 5.5 billion tokens, crawled from Wikipedia and WMT 2008-2012.
+
+The representation is formed from combining internal states of the LSTM. 
+The higher level LSTM states capture context-dependent aspects of word meaning, while the lower level states model aspect of syntax.
+Combining these internal states allows for rich representations that capture both complex characteristics of word use (syntax and semantics) and how word uses vary across linguistic contexts\cite{peters2018}.
+Each created word vector has a length of 3072. 
+
+\paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
+
+\paragraph{Generative Pre-Training (GPT)}
+
+\paragraph{Transformer-XL}
+
+\paragraph{Flair}
 
 \subsubsection{RQ1}
 
