@@ -108,6 +108,15 @@ For dividing the statements into sentences, the \texttt{sent\_tokenize} function
 After applying this split, Flair's sentence object takes care of tokenization and applying the selected embedding technique.
 
 \paragraph{Embeddings from Language Models (ELMo)}
+The first word embedding technique, ELMo, is based on a bidirectional language model. 
+ELMo embeddings are different from regular word embeddings, because each token is a function of the entire input sentence.
+The underlying neural network architecture consists of a bidirectional LSTM trained on a large corpus.
+This corpus contained approximately 5.5 billion tokens, crawled from Wikipedia and WMT 2008-2012.
+
+The representation is formed from combining internal states of the LSTM. 
+The higher level LSTM states capture context-dependent aspects of word meaning, while the lower level states model aspect of syntax.
+Combining these internal states allows for rich representations that capture both complex characteristics of word use (syntax and semantics) and how word uses vary across linguistic contexts\cite{peters2018}.
+Each created word vector has a length of 3072. 
 
 \paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
 
