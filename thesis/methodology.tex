@@ -128,7 +128,7 @@ Pre-training is conducted on 2 unsupervised learning tasks.
 The first utilizes a masked language model (MLM), which randomly masks some of the tokens from the input with the objective to predict the masked word, based only on its context.
 This MLM fuses the context to the left and to the right, allowing pre-training of a deep bi-directional Transformer architecture.
 In the second task, the model takes a sentence, and predicts the next sentence in the sequence. 
-The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding. 
+The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding \cite{devlin2018}. 
 
 The model used for embedding our statements will be the original BERT Uncased model, which contains 110 million parameters and 12 layers. 
 Pre-training for this model was conducted using a combination of the Books Corpus (800 million words) and Wikipedia (2.500 million words).
