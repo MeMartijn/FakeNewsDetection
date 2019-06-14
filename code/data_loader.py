@@ -364,6 +364,79 @@ class DataLoader:
             encoder = FlairEncoder(embedding, self.data_dir, self.df)
             return encoder.get_embedded_dataset
 
+        def get_doc2vec():
+            '''Returns doc2vec representation of the dataset'''
+            # Directory name for saving the datasets
+            dataset_dir = 'doc2vec'
+
+            def create_embeddings(df):
+                '''Create doc2vec embeddings from dataframe'''
+                # Create a training corpus
+                train_corpus = [gensim.models.doc2vec.TaggedDocument(row.statement, [index]) for index, row in df['train'].iterrows()]
+
+                # Set model parameters
+                model = gensim.models.doc2vec.Doc2Vec(vector_size = 1000, min_count = 2, epochs = 40)
+
+                # Build the vocabulary
+                model.build_vocab(train_corpus)
+
+                # Train the model
+                model.train(train_corpus, total_examples = model.corpus_count, epochs = model.epochs)
+
+                # Apply model to all statements
+                embedded_df = {}
+                for dataset in df:
+                    embedded_df[dataset]['statement'] = df[dataset]['statement'].apply(lambda statement: model.infer_vector(statement))
+                
+                return embedded_df
+
+            def create_dataframe(df):
+                '''Create an doc2vec dataframe from another dataframe'''
+                doc2vec = {}
+
+                for dataset in self.df.keys():
+                    # Reduce columns
+                    doc2vec[dataset] = self.df[dataset][['label', 'statement']]
+
+                    # Preprocess statements
+                    doc2vec[dataset]['statement'] = word2vec[dataset]['statement'].map(lambda statement: gensim.utils.simple_preprocess(statement))
+                
+                return doc2vec
+
+            def save_dataframes(dfs, target_dir):
+                '''Save dataframes at the specified location'''
+                # Create a storage directory
+                os.mkdir(os.path.join(self.data_dir, target_dir))
+                
+                # Save the datasets as pickle files
+                for dataset in dfs.keys():
+                    dfs[dataset].to_pickle(os.path.join(
+                        self.data_dir, target_dir, dataset + '.pkl'))
+                print('Saved the datasets at ' + target_dir)
+
+            def init():
+                '''Initialize all logic from the main function'''
+                # Check whether there is a file containing the doc2vec data already present
+                if dataset_dir in os.listdir(self.data_dir):
+                    return {
+                        dataset: pd.read_pickle(os.path.join(
+                            self.data_dir, dataset_dir, dataset + '.pkl'))
+                        for dataset in self.df.keys()
+                    }
+                else:
+                    print('Creating doc2vec representation and saving them as files...')
+
+                    # Apply transformations to dataframe
+                    doc2vec = create_dataframe(self.df)
+                    doc2vec = create_embeddings(doc2vec)
+
+                    # Save the dataframes as pickle files for later use
+                    save_dataframes(doc2vec, dataset_dir)
+
+                    return doc2vec
+                
+            return init()
+
         # Attach all function references
         self.get_bow = get_bow
         self.get_infersent = get_infersent
@@ -372,3 +445,4 @@ class DataLoader:
         self.get_transformerxl = get_flair_embedding('TransformerXLEmbeddings', self.data_dir, self.df)
         self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
+        self.get_doc2vec = get_doc2vec
