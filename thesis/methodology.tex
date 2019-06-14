@@ -116,11 +116,23 @@ This corpus contained approximately 5.5 billion tokens, crawled from Wikipedia a
 The representation is formed from combining internal states of the LSTM. 
 The higher level LSTM states capture context-dependent aspects of word meaning, while the lower level states model aspect of syntax.
 Combining these internal states allows for rich representations that capture both complex characteristics of word use (syntax and semantics) and how word uses vary across linguistic contexts\cite{peters2018}.
+
+The used model for our use will be the original ELMo model, containing 93.6 million parameters.
 Each created word vector has a length of 3072. 
 
-\paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
-
 \paragraph{Generative Pre-Training (GPT)}
+
+\paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
+This embedding technique is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
+Pre-training is conducted on 2 unsupervised learning tasks. 
+The first utilizes a masked language model (MLM), which randomly masks some of the tokens from the input with the objective to predict the masked word, based only on its context.
+This MLM fuses the context to the left and to the right, allowing pre-training of a deep bi-directional Transformer architecture.
+In the second task, the model takes a sentence, and predicts the next sentence in the sequence. 
+The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding \cite{devlin2018}. 
+
+The model used for embedding our statements will be the original BERT Uncased model, which contains 110 million parameters and 12 layers. 
+Pre-training for this model was conducted using a combination of the Books Corpus (800 million words) and Wikipedia (2.500 million words).
+Each created word vector has a length of 3072. 
 
 \paragraph{Transformer-XL}
 
