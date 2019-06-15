@@ -387,7 +387,7 @@ class DataLoader:
                 model.train(train_corpus, total_examples = model.corpus_count, epochs = model.epochs)
 
                 # Apply model to all statements
-                embedded_df = {}
+                embedded_df = df.copy()
                 for dataset in df:
                     embedded_df[dataset]['statement'] = df[dataset]['statement'].apply(lambda statement: model.infer_vector(statement))
                 
