@@ -10,7 +10,7 @@ from hypopt import GridSearch
 
 class Classifiers:
     '''Interface for using pre-defined classifiers'''
-    def get_bilstm_score(self, X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = True)
+    def get_bilstm_score(self, X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = True):
         # Rearrange data types
         params = locals().copy()
         inputs = {
@@ -98,14 +98,14 @@ class Classifiers:
         print(acc)
         return acc
 
-    def get_svm_score(X_train, X_test, X_validation, y_train, y_test, y_validation):
+    def get_svm_score(self, X_train, X_test, X_validation, y_train, y_test, y_validation):
         param_grid = {'C': [0.001, 0.01, 0.1, 1, 10]}
         gs = GridSearch(model = LogisticRegression(), param_grid = param_grid)
         gs.fit(X_train, y_train, X_validation, y_validation)
 
         return gs.score(X_test, y_test)
 
-    def get_logres_score(X_train, X_test, X_validation, y_train, y_test, y_validation):
+    def get_logres_score(self, X_train, X_test, X_validation, y_train, y_test, y_validation):
         param_grid = {'C': [0.001, 0.01, 0.1, 1, 10]}
         gs = GridSearch(model = LogisticRegression(), param_grid = param_grid)
         gs.fit(X_train, y_train, X_validation, y_validation)
