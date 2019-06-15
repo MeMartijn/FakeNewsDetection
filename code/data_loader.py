@@ -449,3 +449,43 @@ class DataLoader:
         self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
+    
+    def apply_pooling(self, technique, df):
+        '''Functionality to apply a pooling technique to a dataframe'''
+        def pooling(vector):
+            if technique == 'max':
+                # Max pooling
+                if len(vector) > 1:
+                    return [row.max() for row in np.transpose([[token_row.max() for token_row in np.transpose(np.array(sentence))] for sentence in vector])]
+                else:
+                    return [token_row.max() for token_row in np.transpose(vector[0])]
+            elif technique == 'min':
+                # Min pooling
+                if len(vector) > 1:
+                    return [row.min() for row in np.transpose([[token_row.min() for token_row in np.transpose(np.array(sentence))] for sentence in vector])]
+                else:
+                    return [token_row.min() for token_row in np.transpose(vector[0])]
+            elif technique == 'average':
+                # Average pooling
+                if len(vector) > 1:
+                    return [np.average(row) for row in np.transpose([[np.average(token_row) for token_row in np.transpose(np.array(sentence))] for sentence in vector])]
+                else:
+                    return [np.average(token_row) for token_row in np.transpose(vector[0])]
+            else:
+                raise ValueError('This pooling technique has not been implemented. Please only use \'min\', \'max\' or \'average\' as keywords.')
+
+        def init():
+            '''Execute all logic'''
+            print('Applying ' + technique + ' pooling to the dataset...')
+            return {
+                dataset: pd.DataFrame(
+                        list(
+                            df[dataset].statement.progress_apply(
+                                lambda statement: pooling(statement)
+                            ).values
+                        )
+                    )
+                for dataset in df.keys()
+            }
+
+        return init()
