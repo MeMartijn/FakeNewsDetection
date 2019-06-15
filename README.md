@@ -17,6 +17,7 @@ To run the code in the `code` folder, the following packages must be installed (
 - `pytorch`
 - `pytorch_pretrained_bert`
 - `spacy`
+- `hypopt`
 
 <a name="rq"/>
 
