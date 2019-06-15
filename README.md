@@ -9,7 +9,7 @@ This research will be focussed on applying transfer learning on [earlier researc
 <a name="requirements"/>
 
 ## Requirements
-To run the code in the `code` folder, the following packages must be installed (using pip):
+To run the code in the `code` folder, the following packages must be installed:
 - `flair`
 - `allennlp`
 - `tensorflow`
@@ -18,6 +18,7 @@ To run the code in the `code` folder, the following packages must be installed (
 - `pytorch_pretrained_bert`
 - `spacy`
 - `hypopt`
+You can install these packages by running `pip install -r /code/requirements.txt`. 
 
 <a name="rq"/>
 
