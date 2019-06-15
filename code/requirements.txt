@@ -2,7 +2,8 @@ flair
 allennlp
 tensorflow
 tensorflow_hub
-pytorch
+torch
+torchvision
 pytorch_pretrained_bert
 spacy
 hypopt
