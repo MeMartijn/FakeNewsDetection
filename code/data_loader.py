@@ -21,6 +21,9 @@ from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbedd
 import os
 from nltk import tokenize
 
+# doc2vec
+import gensim
+
 class FlairEncoder:
     '''An interface for interacting with Zalando's Flair library'''
     def __init__(self, embedding, data_dir, data):
@@ -399,7 +402,7 @@ class DataLoader:
                     doc2vec[dataset] = self.df[dataset][['label', 'statement']]
 
                     # Preprocess statements
-                    doc2vec[dataset]['statement'] = word2vec[dataset]['statement'].map(lambda statement: gensim.utils.simple_preprocess(statement))
+                    doc2vec[dataset]['statement'] = doc2vec[dataset]['statement'].map(lambda statement: gensim.utils.simple_preprocess(statement))
                 
                 return doc2vec
 
