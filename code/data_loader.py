@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import re
 import nltk
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 # Bag of Words imports
 from nltk.tokenize import word_tokenize
