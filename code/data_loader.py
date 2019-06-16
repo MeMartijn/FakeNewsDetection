@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import torch
 from models import InferSent
 
-# ELMo/BERT imports
+# Flair embedding imports
 from flair.data import Sentence
 from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings
 import os
@@ -450,7 +450,8 @@ class DataLoader:
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
     
-    def apply_pooling(self, technique, df):
+    @staticmethod
+    def apply_pooling(technique, df):
         '''Functionality to apply a pooling technique to a dataframe'''
         def pooling(vector):
             if technique == 'max':
@@ -478,12 +479,10 @@ class DataLoader:
             '''Execute all logic'''
             print('Applying ' + technique + ' pooling to the dataset...')
             return {
-                dataset: pd.DataFrame(
-                        list(
-                            df[dataset].statement.progress_apply(
-                                lambda statement: pooling(statement)
-                            ).values
-                        )
+                dataset: list(
+                        df[dataset].statement.progress_apply(
+                            lambda statement: pooling(statement)
+                        ).values
                     )
                 for dataset in df.keys()
             }
