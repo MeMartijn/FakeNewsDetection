@@ -20,25 +20,47 @@ class Classifiers:
             for dataset in params.keys()
         }
 
+        # Create mappings
+        num_classes = len(y_train.unique())
+        if num_classes == 6:
+            mapping = {
+                'true': 0,
+                'mostly-true': 1,
+                'half-true': 2,
+                'barely-true': 3,
+                'false': 4,
+                'pants-fire': 5
+            }
+        elif num_classes == 3:
+            mapping = {
+                'true': 0,
+                'half-true': 1,
+                'false': 2
+            }
+        else:
+            mapping = {
+                'true': 0,
+                'false': 1
+            }
+        print(mapping)
+
         for dataset in inputs.keys():
             if dataset[0:1] == 'X' and reshape:
                 # Reshape datasets from 2D to 3D
-                inputs[dataset] = np.reshape(
-                    inputs[dataset], (inputs[dataset].shape[0], inputs[dataset].shape[1], 1))
+                inputs[dataset] = np.reshape(inputs[dataset], (inputs[dataset].shape[0], inputs[dataset].shape[1], 1))
             elif dataset[0:1] == 'y':
-                inputs[dataset] = np_utils.to_categorical(
-                    np.array(inputs[dataset]), 3)
+                inputs[dataset] = np_utils.to_categorical(list(map(lambda label: mapping[label], np.array(inputs[dataset]))), num_classes)
 
         # Set model parameters
         epochs = 5
         batch_size = 64
-        input_shape = X_train.shape
+        input_shape = inputs['X_train'].shape
 
         # Create the model
         model = Sequential()
         model.add(Bidirectional(LSTM(64, input_shape=input_shape)))
         model.add(Dropout(0.8))
-        model.add(Dense(3, activation='softmax'))
+        model.add(Dense(num_classes, activation='softmax'))
         model.compile('sgd', 'categorical_crossentropy', metrics=['accuracy'])
 
         # Fit the training set over the model and correct on the validation set
@@ -62,16 +84,37 @@ class Classifiers:
             for dataset in params.keys()
         }
 
+        # Create mappings
+        num_classes = len(y_train.unique())
+        if num_classes == 6:
+            mapping = {
+                'true': 0,
+                'mostly-true': 1,
+                'half-true': 2,
+                'barely-true': 3,
+                'false': 4,
+                'pants-fire': 5
+            }
+        elif num_classes == 3:
+            mapping = {
+                'true': 0,
+                'half-true': 1,
+                'false': 2
+            }
+        else:
+            mapping = {
+                'true': 0,
+                'false': 1
+            }
+
         # Reshape datasets
         for dataset in inputs.keys():
             if dataset[0:1] == 'X':
                 if reshape:
-                    inputs[dataset] = np.reshape(
-                        inputs[dataset], (inputs[dataset].shape[0], inputs[dataset].shape[1], 1))
+                    inputs[dataset] = np.reshape(inputs[dataset], (inputs[dataset].shape[0], inputs[dataset].shape[1], 1))
 
             elif dataset[0:1] == 'y':
-                inputs[dataset] = np_utils.to_categorical(
-                    np.array(inputs[dataset]), 3)
+                inputs[dataset] = np_utils.to_categorical(list(map(lambda label: mapping[label], np.array(inputs[dataset]))), num_classes)
 
         # Set model parameters
         epochs = 5
@@ -86,7 +129,7 @@ class Classifiers:
         model.add(Conv1D(128, kernel_size=4, activation='relu'))
         model.add(Dropout(0.8))
         model.add(Flatten())
-        model.add(Dense(3, activation='softmax'))
+        model.add(Dense(num_classes, activation='softmax'))
         model.compile('sgd', 'categorical_crossentropy', metrics=['accuracy'])
 
         # Fit the training set over the model and correct on the validation set
