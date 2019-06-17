@@ -166,7 +166,39 @@ By using this concept of recurrence, the Transformer-XL architecture allows for 
 The model is pre-trained on the WikiText-103 dataset, which contains over 100 million tokens and is particularly focussed on long-term dependencies \cite{merity2017}. 
 Each created word vector has a length of 1024. 
 
-\subsubsection{RQ1}
+\subsubsection{Pooling and padding}
+For our classification tasks, we need to transform the shape of our data to a uniform style.
+
+\paragraph{Applying pooling}
+In section 2.3, we have identified three simple mathematical operations to reduce our vector length to a fixed length.
+We will apply average pooling, max pooling and min pooling and test their accuracy on a classifier to test what pooling technique works best on each embebdding technique.
+For applying these transformations, the NumPy package will be used \cite{numpy}.
+NumPy contains tools for easily working with multi-dimensional arrays, and allows us to easily manipulate data. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{applyingpooling}
+    \caption{Applying pooling to reduce a matrix to a single vector.}
+\end{figure}
+
+As can be seen in figure 2\todo{Check whether this number is still correct}, applying a pooling operation is rather straight-forward: for every word vector, the floating point number at every $n$th index is gathered.
+After that, a mathematical operation is performed to reduce those numbers to a single number, which will become the number in the $n$th index of the final full statement vector.
+
+\paragraph{Applying padding}
+For neural architectures, three-dimensionally shaped data can be used for classification. 
+However, the problem still remains that each text sequence can have a different length of words. 
+Padding the sequences, as described in section 2.4, will be used to combat this.
+
+For applying padding, we will use the \texttt{pad\_sequences} function from the Keras library \cite{keraspad}. 
+This function allows us to specify a maximum sequence length to transform all our statements into.
+
+\paragraph{doc2vec}
+Of course, both pooling and padding result in some loss of data.
+To compare these data densing techniques to a situation in which all words of full sequences are taken into account, results using a doc2vec embedding will also be taken into account.
+The doc2vec model creates paragraph vectors instead of word vectors, allowing all text in each statement to condense back into one single vector, without specifiying a cut off point or a maximum length \cite{le2014}.
+
+Together with the majority vote and the best score from previous research, the doc2vec score will function as a baseline for comparing performance of our classifiers.
+For gathering doc2vec scores, the doc2vec interface in the Gensim library will be used \cite{gensim}. 
 
 \subsubsection{RQ2}
 
