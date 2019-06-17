@@ -6,6 +6,7 @@ from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional, Reshape
 from keras.utils import np_utils
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
+from sklearn.ensemble import GradientBoostingClassifier
 from hypopt import GridSearch
 
 class Classifiers:
@@ -112,6 +113,14 @@ class Classifiers:
     def get_logres_score(X_train, X_test, X_validation, y_train, y_test, y_validation):
         param_grid = {'C': [0.001, 0.01, 0.1, 1, 10]}
         gs = GridSearch(model = LogisticRegression(), param_grid = param_grid)
+        gs.fit(X_train, y_train, X_validation, y_validation)
+
+        return gs.score(X_test, y_test)
+    
+    @staticmethod
+    def get_gradientboosting_score(X_train, X_test, X_validation, y_train, y_test, y_validation):
+        param_grid = {'learning_rate': [0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2]}
+        gs = GridSearch(model = GradientBoostingClassifier(), param_grid = param_grid)
         gs.fit(X_train, y_train, X_validation, y_validation)
 
         return gs.score(X_test, y_test)
