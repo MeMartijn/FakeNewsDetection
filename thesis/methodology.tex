@@ -132,7 +132,7 @@ Each created word vector has a length of 1536.
 
 \paragraph{Flair}
 Just like the ELMo embeddings proposed by Peters et al. \cite{peters2018}, Akbik et al. proposed Flair embeddings, which are contextualized word embeddings on a character level.
-According to the authors, \textit{contextual string embeddings are powerful embeddings that capture latent syntactic-semantic information that goes beyond standard word embeddings. 
+According to these authors, \textit{contextual string embeddings are powerful embeddings that capture latent syntactic-semantic information that goes beyond standard word embeddings. 
 Key differences are: (1) they are trained without any explicit notion of words and thus fundamentally model words as sequences of characters. 
 And (2) they are contextualized by their surrounding text, meaning that the same word will have different embeddings depending on its contextual use} \cite{flairembedding}. 
 
@@ -147,7 +147,7 @@ For our use, the recommended configuration of stacked embeddings by the Flair re
 Each created word vector from these stacked embeddings has a length of 4196, which is the longest vector length of all embedding techniques listed in section 3.3.1. 
 
 \paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
-This embedding technique is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
+Devlin et al. propose a embedding technique which is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
 Pre-training is conducted on 2 unsupervised learning tasks. 
 The first utilizes a masked language model (MLM), which randomly masks some of the tokens from the input with the objective to predict the masked word, based only on its context.
 This MLM fuses the context to the left and to the right, allowing pre-training of a deep bi-directional Transformer architecture.
@@ -159,6 +159,12 @@ Pre-training for this model was conducted using a combination of the BooksCorpus
 Each created word vector has a length of 3072. 
 
 \paragraph{Transformer-XL}
+Dai et al. build further on the original Transformer architecture with the Transformer-XL model, but add recurrence to allow for the model to conserve hidden states across batches.
+This means that for each new batch, the model uses previous batches to predict the first few symbols of the current batch.
+By using this concept of recurrence, the Transformer-XL architecture allows for creating long-term dependencies \cite{dai2019}. 
+
+The model is pre-trained on the WikiText-103 dataset, which contains over 100 million tokens and is particularly focussed on long-term dependencies \cite{merity2017}. 
+Each created word vector has a length of 1024. 
 
 \subsubsection{RQ1}
 
