@@ -12,7 +12,7 @@ from hypopt import GridSearch
 class Classifiers:
     '''Interface for using pre-defined classifiers'''
     @staticmethod
-    def get_bilstm_score(X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = True):
+    def get_bilstm_score(X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = False):
         # Rearrange data types
         params = locals().copy()
         inputs = {
@@ -54,7 +54,7 @@ class Classifiers:
         return acc
 
     @staticmethod
-    def get_cnn_score(X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = True):
+    def get_cnn_score(X_train, X_test, X_validation, y_train, y_test, y_validation, reshape = False):
         # Rearrange data types
         params = locals().copy()
         inputs = {
@@ -119,7 +119,7 @@ class Classifiers:
     
     @staticmethod
     def get_gradientboosting_score(X_train, X_test, X_validation, y_train, y_test, y_validation):
-        param_grid = {'learning_rate': [0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2]}
+        param_grid = {'learning_rate': [0.1, 0.05, 0.02, 0.01]}
         gs = GridSearch(model = GradientBoostingClassifier(), param_grid = param_grid)
         gs.fit(X_train, y_train, X_validation, y_validation)
 
