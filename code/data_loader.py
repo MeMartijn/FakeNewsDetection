@@ -44,22 +44,25 @@ class FlairEncoder:
 
         def create_embedding(statement, embedding):
             '''Create a single embedding from a piece of text'''
-            # Split all sentences
-            sentences = tokenize.sent_tokenize(statement)
+            try:
+                # Split all sentences
+                sentences = tokenize.sent_tokenize(statement)
 
-            # Create an array for storing the embeddings
-            vector = []
+                # Create an array for storing the embeddings
+                vector = []
 
-            # Loop over all sentences and apply embedding
-            for sentence in sentences:
-                # Create a Sentence object for each sentence in the statement
-                sentence = Sentence(sentence, use_tokenizer = True)
+                # Loop over all sentences and apply embedding
+                for sentence in sentences:
+                    # Create a Sentence object for each sentence in the statement
+                    sentence = Sentence(sentence, use_tokenizer = True)
 
-                # Embed words in sentence
-                embedding.embed(sentence)
-                vector.append([token.embedding.numpy() for token in sentence])
+                    # Embed words in sentence
+                    embedding.embed(sentence)
+                    vector.append([token.embedding.numpy() for token in sentence])
 
-            return vector
+                return vector
+            except:
+                print('statement')
         
         def encode_datasets(embedding_dir, data_dir, dfs, embedding):
             '''Return all datasets with embeddings instead of texts'''
@@ -111,7 +114,12 @@ class FlairEncoder:
                         lambda text: create_embedding(text, embedding)
                     )
 
-                    if embedding_dir == 'flair' and dataset == 'train':
+                    if embedding_dir == 'openaigpt' and dataset == 'train':
+                        # OpenAI's tokenizer errors on two sentences:
+                        dfs[dataset].loc['3561.json', 'statement'] = create_embedding('Says JoAnne Kloppenburgs side had a 3-to-1 money advantage in the Wisconsin Supreme Court campaign.', embedding)
+                        dfs[dataset].loc['4675.json', 'statement'] = create_embedding('Since Mayor Kennedy OBrien took office Sayreville has issued 22081 building permits! Now OBrien is holding secret meetings with big developers.', embedding)
+
+                    if embedding_dir == 'flair' and dataset == 'train' and save:
                         # Flair produces files too large: we need to split them before being able to save as files
                         total_length = len(dfs[dataset])
                         split = round(total_length / 2)
@@ -126,7 +134,7 @@ class FlairEncoder:
                     elif save: 
                         # Create a location to save the datasets as pickle files
                         os.mkdir(os.path.join(data_dir, embedding_dir))
-                        
+
                         # Save the dataset as pickle file
                         file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
                         dfs[dataset].to_pickle(file_path)
