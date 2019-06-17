@@ -35,7 +35,7 @@ class FlairEncoder:
         self.data_dir = data_dir
         self.dfs = data
 
-    def get_embedded_dataset(self):
+    def get_embedded_dataset(self, save = False):
         '''Return the embedding representation of the dataset'''
         def get_embedding_dir(embedding):
             '''Turn the name of the embedding technique into a specific folder'''
@@ -93,9 +93,6 @@ class FlairEncoder:
                     for dataset in dfs.keys()
                 }
 
-                # Create a location to save the datasets as pickle files
-                os.mkdir(os.path.join(data_dir, embedding_dir))
-
                 # Activate embedding
                 if embedding_dir == 'flair':
                     # Flair's recommended usage is different from other embedding techniques
@@ -126,7 +123,10 @@ class FlairEncoder:
                         flair_subset2.to_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset2.pkl'))
 
                         print('Because of the file size, the training set has been split and saved in two seperate files.')
-                    else: 
+                    elif save: 
+                        # Create a location to save the datasets as pickle files
+                        os.mkdir(os.path.join(data_dir, embedding_dir))
+                        
                         # Save the dataset as pickle file
                         file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
                         dfs[dataset].to_pickle(file_path)
@@ -195,7 +195,7 @@ class DataLoader:
 
     def set_embeddings(self):
         '''Set all interfaces for embedding techniques using custom functions or Flair encoders'''
-        def get_bow():
+        def get_bow(save = False):
             '''Returns bag of words representation of the dataset'''
             # Directory name for saving the datasets
             bow_dir = 'bag-of-words'
@@ -262,16 +262,17 @@ class DataLoader:
                     }
 
                     # Save the datasets as pickle files
-                    for dataset in dfs.keys():
-                        dfs[dataset].to_pickle(os.path.join(
-                            self.data_dir, bow_dir, dataset + '.pkl'))
-                    print('Saved the datasets at ' + bow_dir)
+                    if save:
+                        for dataset in dfs.keys():
+                            dfs[dataset].to_pickle(os.path.join(
+                                self.data_dir, bow_dir, dataset + '.pkl'))
+                        print('Saved the datasets at ' + bow_dir)
 
                     return dfs
 
             return init()
         
-        def get_infersent():
+        def get_infersent(save = False):
             '''Returns InferSent representation of the dataset'''
             # Directory name for saving the datasets
             infersent_dir = 'infersent'
@@ -348,14 +349,15 @@ class DataLoader:
                     }
 
                     try:
-                        # Create a storage directory
-                        os.mkdir(self.data_dir + '/' + infersent_dir)
+                        if save:
+                            # Create a storage directory
+                            os.mkdir(self.data_dir + '/' + infersent_dir)
 
-                        # Save the datasets as pickle files
-                        for dataset in dfs.keys():
-                            dfs[dataset].to_pickle(os.path.join(
-                                self.data_dir, infersent_dir, dataset + '.pkl'))
-                        print('Saved the datasets at ' + infersent_dir)
+                            # Save the datasets as pickle files
+                            for dataset in dfs.keys():
+                                dfs[dataset].to_pickle(os.path.join(
+                                    self.data_dir, infersent_dir, dataset + '.pkl'))
+                            print('Saved the datasets at ' + infersent_dir)
 
                         return dfs
                     except:
