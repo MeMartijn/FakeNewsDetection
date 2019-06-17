@@ -130,6 +130,22 @@ For learning the language model, the BooksCorpus dataset was used, which contain
 
 Each created word vector has a length of 1536.
 
+\paragraph{Flair}
+Just like the ELMo embeddings proposed by Peters et al. \cite{peters2018}, Akbik et al. proposed Flair embeddings, which are contextualized word embeddings on a character level.
+According to the authors, \textit{contextual string embeddings are powerful embeddings that capture latent syntactic-semantic information that goes beyond standard word embeddings. 
+Key differences are: (1) they are trained without any explicit notion of words and thus fundamentally model words as sequences of characters. 
+And (2) they are contextualized by their surrounding text, meaning that the same word will have different embeddings depending on its contextual use} \cite{flairembedding}. 
+
+Flair embeddings make use of a bidirectional LSTM architecture for language modelling. 
+For pre-training, a sequence of characters is passed to this architecture, which at each point in the sequence is trained to predict the next character.
+Then, the hidden states of the neural network are used to create contextualized word embeddings.
+
+Akbik et al. also proposed the concept of stacking embeddings, allowing for traditional word embeddings to be combined with Flair embeddings.
+This potentially created word vectors that contain greater latent word-level semantics by concatenating embedding vectors trained on a character level and on a word level \cite{akbik2018}.
+
+For our use, the recommended configuration of stacked embeddings by the Flair repository are used \cite{flairembedding}: this is a combination of GloVe word embeddings \cite{pennington2014} and both forward and backward Flair embeddings.
+Each created word vector from these stacked embeddings has a length of 4196, which is the longest vector length of all embedding techniques listed in section 3.3.1. 
+
 \paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
 This embedding technique is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
 Pre-training is conducted on 2 unsupervised learning tasks. 
@@ -143,8 +159,6 @@ Pre-training for this model was conducted using a combination of the BooksCorpus
 Each created word vector has a length of 3072. 
 
 \paragraph{Transformer-XL}
-
-\paragraph{Flair}
 
 \subsubsection{RQ1}
 
