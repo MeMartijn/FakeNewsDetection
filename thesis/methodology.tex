@@ -200,6 +200,27 @@ The doc2vec model creates paragraph vectors instead of word vectors, allowing al
 Together with the majority vote and the best score from previous research, the doc2vec score will function as a baseline for comparing performance of our classifiers.
 For gathering doc2vec scores, the doc2vec interface in the Gensim library will be used \cite{gensim}. 
 
-\subsubsection{RQ2}
+\subsubsection{Classification}
+To make the results of our embedding techniques comparable to existing research, four classifiers of Wang and the top performing model of Khurana will be used to classify our statements \cite{wang2018}\cite{khurana2017}:
 
-\subsubsection{RQ3}
+\begin{enumerate}
+    \item Logistic regression;
+    \item SVM;
+    \item Gradient Boosting;
+    \item Bidirectional LSTM;
+    \item Convolutional neural network.
+\end{enumerate}
+
+For all classifiers, hyperparameters will be tuned on the validation set to keep the experimental settings as close to the original setup by Wang as possible.
+As reported by Wang, because the Liar dataset is balanced, f-measures and accuracies are expected to be similar \cite{wang2018}.
+Because of this, performance of classifications will be reported using accuracy over the test set as an evaluation metric. 
+Each classification will be run 5 times, and the reported score will be the average of those 5 scores, with the aim of reducing as much random effects as possible. 
+
+For the first three non-neural classification algorithms, scikit-learn will be used for implementation \cite{scikit-learn}. 
+To tune the regularization strength for the logistic regression and SVM implementation and to tune the learning rate of the gradient boosting, a grid search will be used. 
+
+The Keras library will be used for the neural architectures \cite{keras}.
+Both neural classifiers will use a dropout keep probability of 0.8 without a $L_{2}$ penalty.
+A batch size of 64 and 5 training epochs will be set. 
+The convolutional neural network will consist of three layers with a filter size of (2, 3, 4).
+Each layer will implement 128 filters and will utilize a ReLu activation function.
