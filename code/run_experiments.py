@@ -8,6 +8,9 @@ from keras.preprocessing import sequence
 from data_loader import DataLoader
 from classifiers import Classifiers
 
+import nltk
+nltk.download('punkt')
+
 # Create class objects for interaction with data
 data = DataLoader()
 clfs = Classifiers()
