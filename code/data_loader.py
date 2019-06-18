@@ -62,7 +62,7 @@ class FlairEncoder:
 
                 return vector
             except:
-                print('statement')
+                print(statement)
         
         def encode_datasets(embedding_dir, data_dir, dfs, embedding):
             '''Return all datasets with embeddings instead of texts'''
