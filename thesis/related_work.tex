@@ -1,6 +1,6 @@
 \section{Related Work}
 \subsection{Automatic fake news detection}
-There have been several attempts in the past to create classifiers for automatic detection of lies and fake news. 
+In past research, there have been several attempts to create classifiers for automatic detection of lies and fake news. 
 Wang used both linear and neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
 Furthermore, he added speaker metadata to improve the result of his classifications.
 Both with and without introducing speaker metadata, the best performing architecture was found to be a convolutional neural network. 
@@ -8,15 +8,16 @@ With an accuracy of 27\% without, and 27,4\% with metadata on the test set, Wang
 
 From the same dataset, Khurana extracted linguistic features such as n-grams, sentiment, number of capital letters and POS tags to classify the data into 3 labels instead of the original 6 labels. 
 For classification, she used a set of non-neural classifiers. 
-Her best performing classifier, using gradient boosting, obtained an accuracy of 49,03\%, which performed around 5\% better than the majority baseline of 44,28\% \cite{khurana2017}.
+Her best performing classifier, gradient boosting, obtained an accuracy of 49,03\%, which performed around 5\% better than the majority baseline of 44,28\% \cite{khurana2017}.
 
 The British factchecking organization Full Fact has developed an architecture that is able to monitor and factcheck statements from the British Parliament and major media outlets in the United Kingdom. 
-It can automatically factcheck the accuracy of statistical claims, for example \cite{babakar2016}.
-For detecting factual claims from texts, the organization uses InferSent, which is a way of transfer learning that has been proved to perform well for the use case of Full Fact \cite{pydata2018}.
+One of its uses is automatically factchecking the accuracy of statistical claims made by members of the Parliament \cite{babakar2016}.
+For detecting factual claims from texts, the organization uses InferSent, which is a way of transfer learning on sentence level that has been proved to perform well for the use case of Full Fact \cite{pydata2018}.
 
-Various tools with regards to fake news detection are also available. 
+Various tools with regards to fake news detection and research are also available. 
 Faker Fact is a tool which can classify texts into a set of categories ranging from satire to agenda-driven, the former identifying humorous intent, the latter identifying manipulation \cite{fakerfact}. 
-Hoaxy, on the other hand, allows for the visualization of unverified claims through Twitter networks \cite{shao2016}.
+For tracking online misinformation, the Observatory on Social Media created Hoaxy. 
+Hoaxy allows for the visualization of the spread of unverified claims through Twitter networks \cite{shao2016}.
 
 \subsection{Pre-trained textual embeddings}
 Traditionally, feature representation for text classification is often based on the bag-of-words model, containing linguistic patterns as features, such as unigrams, bigrams or n-grams.
@@ -24,30 +25,29 @@ However, these approaches completely ignore contextual information or word order
 As a result, classifiers may be unable to correctly identify patterns, affecting the classification accuracy \cite{lai2015}.
 
 As an answer to these problems, pre-trained text embeddings have been rising in popularity, both in use and in research.
-Before classification is possible, text data needs to be transformed into numbers to be able to be interpreted by classifier algorithms.
+Before classification is possible, text data needs to be transformed into numbers to be able to be interpreted by classification algorithms.
 Fundamentally, text embeddings are vector representations of linguistic structures, allowing for usage of text in classifiers. 
 The process of turning words into these embeddings is typically powered by statistics gathered from large unlabeled corpora of text data \cite{mikolov2017}.
 
-In 2017, Vaswani et al. proposed a novel architecture for embedding text data called the Transformer. 
-With the main aim originally being translation from one sentence in some language to another sentence in another language, Transformers are based on an encoder-decoder model.
-These models take the sequence of input words, convert it to an intermediate representation, after which the decoder creates an output sequence.
+In 2017, Vaswani et al. proposed a novel architecture for embedding raw textual data called the Transformer. 
+With the main aim originally being translating one sentence from one language to another language, Transformers are based on an encoder-decoder model.
+These models take the sequence of input words and convert it to an intermediate representation, after which a decoder creates an output sequence.
 
 The main strength of the Transformer architecture is its focus on attention to create the intermediate representation.
 The encoder receives a sequence of inputs, and reads it at once, as opposed to sequentially (either from left to right or from right to left, as humans do). 
-This allows the encoder to learn the context of a word based on all of the surrounding text \cite{vaswani2017}.
-
-Inspired by the Transformer architecture, numerous new text embedding techniques have been developed which give the possibility to classify texts by making use of the intermediate representation of the Transformer model.
-As shown by the Bidirectional Encoder Representations from Transformer (BERT) model by Devlin et al., these techniques have beaten existing benchmarks in natural language processing, underlining the importance of context in text embeddings \cite{devlin2018}. 
+This allows the encoder to learn the context of a word based on all of its surrounding text \cite{vaswani2017}, as opposed to traditional vector representation techniques that only allow a single context-independent representation for each word \cite{peters2018}.
+As shown by the Bidirectional Encoder Representations from Transformer (BERT) model by Devlin et al., these techniques have beaten existing benchmarks in natural language processing, underlining the importance of context in textual data \cite{devlin2018}.
 
 \subsection{Pooling}
 Linear classifiers need data in a two-dimensional shape to be able to perform calculations. 
-In the case of raw text data, sentences in the dataset have variable word lengths, resulting in a different vector length when turning the text into a vector representation.
-To turn the vector representations into a uniform length, we can either cut off the vectors at a fixed length (\textit{padding}), or we can perform calculations to reduce the length of the vectors (\textit{pooling}).
+In the case of raw text data, sentences in datasets often have variable word lengths, resulting in a different vector length when turning the texts into a vector representation.
+Furthermore, when dealing with vector representations of words, the shape of a statement is turned three-dimensional instead of the needed two-dimensionality for linear classifications.
+To turn the vector representations into a uniform length, we can either cut off the vectors at a fixed length (\textit{padding}), or we can perform calculations to reduce the length and dimensions of the vectors (\textit{pooling}).
 
-In computer vision, feature pooling is used to reduce noise in data. 
-The goal of this step is to transform joint feature representations into a new, more usable one that preserves important information while discarding irrelevant details. 
+In computer vision, feature pooling is often used to reduce noise in data. 
+The goal of this step is to transform joint feature representations into a new, more usable one that preserves important information while discarding irrelevant details.
 Pooling techniques such as max pooling and average pooling perform mathematical operations to reduce several numbers into one \cite{boureau2010}. 
-In the case of transforming the shape of the data, we can reduce vectors to the smallest vector in the dataset to create a uniform shape.
+In the case of transforming the shape of data, we can reduce vectors to the smallest vector in the dataset to create a uniform shape.
 
 Scherer et al. compared performance of two pooling operations on a convolutional neural network architecture. 
 The first pooling method extracted maximums and the second one was primarily based on working with averages.
@@ -56,7 +56,7 @@ They have shown that a max pooling operation is vastly superior for capturing in
 Shen et al. noted that in text classification, only a small number of key words contribute to the final prediction.
 As a result, simple pooling operations are surprisingly effective for representing documents \cite{shen2018}.  
 Lai et al., Hu et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015}\cite{hu2014}\cite{zhang2015}. 
-In the case of text classification, max pooling strategies seem to be the most popular. 
+For text classification, max pooling strategies seem to be the most popular. 
 
 \subsection{Padding}
 When padding a sequence, a list of sequences is transformed to a specific length. 
