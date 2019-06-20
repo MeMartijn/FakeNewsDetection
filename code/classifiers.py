@@ -42,7 +42,6 @@ class Classifiers:
                 'true': 0,
                 'false': 1
             }
-        print(mapping)
 
         for dataset in inputs.keys():
             if dataset[0:1] == 'X' and reshape:
