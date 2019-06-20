@@ -116,13 +116,13 @@ for embedding in tqdm(embedding_techniques):
         for linear_clf in linear_clfs:
                 if linear_clf == 'gradientboosting':
                     results[embedding][label_count][linear_clf] = {
-                        technique: [] for technique in pooling_techniques
+                        technique: 0 for technique in pooling_techniques
                     }
                 else: 
                     # There needs to be both a L1 version and a L2 version
                     results[embedding][label_count][linear_clf] = {
                         reg: {
-                            technique: [] for technique in pooling_techniques
+                            technique: 0 for technique in pooling_techniques
                         } for reg in regularizations
                     }
         
@@ -132,14 +132,12 @@ for embedding in tqdm(embedding_techniques):
 
             for linear_clf in linear_clfs:
                 if linear_clf == 'gradientboosting':
-                    for i in range(5):
-                        test_score = eval("clfs.get_" + linear_clf + "_score(pooled_df['train'], pooled_df['test'], pooled_df['validation'], general['train']['label'], general['test']['label'], general['validation']['label'])")
-                        results[embedding][label_count][linear_clf][pooling_technique].append(test_score)
+                    test_score = eval("clfs.get_" + linear_clf + "_score(pooled_df['train'], pooled_df['test'], pooled_df['validation'], general['train']['label'], general['test']['label'], general['validation']['label'])")
+                    results[embedding][label_count][linear_clf][pooling_technique] = test_score
                 else:
                     for reg in regularizations:
-                        for i in range(5):
-                            test_score = eval("clfs.get_" + linear_clf + "_score(pooled_df['train'], pooled_df['test'], pooled_df['validation'], general['train']['label'], general['test']['label'], general['validation']['label'], penalty = '" + reg + "')")
-                            results[embedding][label_count][linear_clf][reg][pooling_technique].append(test_score)
+                        test_score = eval("clfs.get_" + linear_clf + "_score(pooled_df['train'], pooled_df['test'], pooled_df['validation'], general['train']['label'], general['test']['label'], general['validation']['label'], penalty = '" + reg + "')")
+                        results[embedding][label_count][linear_clf][reg][pooling_technique] = test_score
             
             del pooled_df
         
