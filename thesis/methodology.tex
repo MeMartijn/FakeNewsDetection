@@ -214,7 +214,7 @@ To make the results of our embedding techniques comparable to existing research,
 For all classifiers, hyperparameters will be tuned on the validation set to keep the experimental settings as close to the original setup by Wang as possible.
 As reported by Wang, because the Liar dataset is balanced, f-measures and accuracies are expected to be similar \cite{wang2018}.
 Because of this, performance of classifications will be reported using accuracy over the test set as an evaluation metric. 
-Each classification will be run 5 times, and the reported score will be the average of those 5 scores, with the aim of reducing as much random effects as possible. 
+Each neural classification will be run 5 times, and the reported score will be the average of those 5 scores, with the aim of reducing as much random effects as possible. 
 
 For the first three non-neural classification algorithms, scikit-learn will be used for implementation \cite{scikit-learn}. 
 To tune the regularization strength for the logistic regression and SVM implementation and to tune the learning rate of the gradient boosting, a grid search will be used. 
