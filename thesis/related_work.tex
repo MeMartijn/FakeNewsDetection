@@ -1,14 +1,14 @@
 \section{Related Work}
 \subsection{Automatic fake news detection}
 In past research, there have been several attempts to create classifiers for automatic detection of lies and fake news. 
-Wang used both linear and neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
+Wang used both neural and non-neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
 Furthermore, he added speaker metadata to improve the result of his classifications.
 Both with and without introducing speaker metadata, the best performing architecture was found to be a convolutional neural network. 
 With an accuracy of 27\% without, and 27,4\% with metadata on the test set, Wang was able to perform 6,2\% and 6,6\% better than the majority baseline of 20,8\%\cite{wang2018}.
 
 From the same dataset, Khurana extracted linguistic features such as n-grams, sentiment, number of capital letters and POS tags to classify the data into 3 labels instead of the original 6 labels. 
 For classification, she used a set of non-neural classifiers. 
-Her best performing classifier, gradient boosting, obtained an accuracy of 49,03\%, which performed around 5\% better than the majority baseline of 44,28\% \cite{khurana2017}.
+Her best performing classifier, using gradient boosting, obtained an accuracy of 49,03\%, which performed around 5\% better than the majority baseline of 44,28\% \cite{khurana2017}.
 
 The British factchecking organization Full Fact has developed an architecture that is able to monitor and factcheck statements from the British Parliament and major media outlets in the United Kingdom. 
 One of its uses is automatically factchecking the accuracy of statistical claims made by members of the Parliament \cite{babakar2016}.
@@ -30,7 +30,7 @@ Fundamentally, text embeddings are vector representations of linguistic structur
 The process of turning words into these embeddings is typically powered by statistics gathered from large unlabeled corpora of text data \cite{mikolov2017}.
 
 In 2017, Vaswani et al. proposed a novel architecture for embedding raw textual data called the Transformer. 
-With the main aim originally being translating one sentence from one language to another language, Transformers are based on an encoder-decoder model.
+With the main aim originally being translating one sentence from one language to another, Transformers are based on an encoder-decoder model.
 These models take the sequence of input words and convert it to an intermediate representation, after which a decoder creates an output sequence.
 
 The main strength of the Transformer architecture is its focus on attention to create the intermediate representation.
@@ -39,9 +39,9 @@ This allows the encoder to learn the context of a word based on all of its surro
 As shown by the Bidirectional Encoder Representations from Transformer (BERT) model by Devlin et al., these techniques have beaten existing benchmarks in natural language processing, underlining the importance of context in textual data \cite{devlin2018}.
 
 \subsection{Pooling}
-Linear classifiers need data in a two-dimensional shape to be able to perform calculations. 
+Most non-neural classifiers need data in a two-dimensional uniform shape to be able to perform calculations. 
 In the case of raw text data, sentences in datasets often have variable word lengths, resulting in a different vector length when turning the texts into a vector representation.
-Furthermore, when dealing with vector representations of words, the shape of a statement is turned three-dimensional instead of the needed two-dimensionality for linear classifications.
+Furthermore, when dealing with vector representations of words, the shape of a statement is turned three-dimensional instead of the needed two-dimensionality for non-neural classifications.
 To turn the vector representations into a uniform length, we can either cut off the vectors at a fixed length (\textit{padding}), or we can perform calculations to reduce the length and dimensions of the vectors (\textit{pooling}).
 
 In computer vision, feature pooling is often used to reduce noise in data. 
@@ -68,13 +68,13 @@ Simard et al. make use of sequence padding for convolutional neural networks to 
 Wen et al. apply padding to convolutional network models to prevent dimension loss \cite{wen2018}. 
 
 \subsection{Neural text classifiers}
-Wang has shown that neural networks perform slightly better on classifying fake news than linear classifiers. 
+Wang has shown that neural networks perform slightly better on classifying fake news than non-neural classifiers. 
 In his research, he compared accuracies on support vector machines, logistic regressions, bidirectional LSTMs and convolutional neural networks with each other.
 With his 6 label classification, his support vector machine implementation was the best performing linear classifier, but the performance was slightly worse than the best performing neural network (25,8\% for the former, and 26\% for the latter) \cite{wang2018}.
 
 Wang used two neural network architectures both well known for their robustness and performance when it comes to text classification. 
 The first model, the bidirectional Long Short Term Memory (LSTM) network, is specifically tailored at keeping track of information for a long period of time. 
-This makes this model able to keep track of the context in a more intelligent way when compared to a standard non-neural classification algorithm \cite{olah2015}. 
+This makes the model able to keep track of the context in a more intelligent way when compared to a standard non-neural classification algorithm \cite{olah2015}. 
 
 The second architecture, the convolutional neural network, applies a set of convolving filters in its layers that are applied to local features. 
 These models are shown to be effective in numerous natural language processing applications, such as semantic parsing, search query retrieval, sentence modeling and other traditional NLP tasks \cite{kim2014}.  
