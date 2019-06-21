@@ -2172,7 +2172,7 @@
                 "l2": {
                     "max": 0.5296442687747036,
                     "min": 0,
-                    "average": 0
+                    "average": 0.5106719367588933
                 }
             },
             "gradientboosting": {
