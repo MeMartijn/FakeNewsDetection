@@ -15,17 +15,32 @@ The answer to this question will be given by comparing accuracy of a logistic re
 \end{figure}
 
 \subsection{RQ2}
-\textbf{At what padding sequence length do neural networks hold the highest accuracy when classifying fake news?}\\
-The answer to this question will be given by comparing accuracy of a bidirectional LSTM architecture with variable padding lengths.
+To answer the question which sequence length is optimal for neural classification, data with variable maximum lengths have been fed into bidirection LSTMs and convolutional neural networks.
+For these maximum lengths, the lengths between two standard deviations from the median of the total word lengths per statement have been used, as is illustrated in figure 4. 
+In this figure, the lowest maximum length, the median and the highest length are shown.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{wordlength}
+    \caption{Total token counts per statement on the Liar dataset.}
+\end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.5]{padaccuracy}
-    \caption{Comparing different maximum padding lengths.}
+    \begin{subfigure}[b]{1\textwidth}
+       \includegraphics[width=1\linewidth]{bilstmaccuracies}
+       \caption{Bidirectional LSTM accuracies.}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{1\textwidth}
+       \includegraphics[width=1\linewidth]{cnnaccuracies}
+       \caption{Convolutional neural network accuracies.}
+    \end{subfigure}
+    
+    \caption{Test set accuracies with variable maximum lengths over neural network architectures.}
 \end{figure}
 
-By comparing all embedding techniques, I plan on getting a peak padding length with the best overall performance shared by all embedding methods. 
-At this moment, the optimal length averages at around a length of 22. 
+In figure 5\todo{Check if this number is still correct}, the accuracies with different amounts of padding can be seen, compared to our 3 baselines.
 
 \subsection{RQ3}
 \textbf{How well do neural network classification architectures classify fake news compared to non-neural classification algorithms?}\\
