@@ -388,7 +388,7 @@ class DataLoader:
                 train_corpus = [gensim.models.doc2vec.TaggedDocument(row.statement, [index]) for index, row in df['train'].iterrows()]
 
                 # Set model parameters
-                model = gensim.models.doc2vec.Doc2Vec(vector_size = 1000, min_count = 2, epochs = 40)
+                model = gensim.models.doc2vec.Doc2Vec(vector_size = 4600, min_count = 2, epochs = 40)
 
                 # Build the vocabulary
                 model.build_vocab(train_corpus)
