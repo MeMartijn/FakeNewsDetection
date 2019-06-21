@@ -16,7 +16,7 @@ The distribution of statements across the 6 labels can be seen in table 2.
 \end{figure}
 
 For each statement, the dataset contains an id, a label, a subject, a speaker, the function title of the speaker, the affiliated state and political affiliation, the context of the statement and a vector with a truthfulness history.
-An example of such a data entry can be seen in table 1.\todo{Check whether this number is still correct}
+An example of such a data entry can be seen in table 1.
 Wang introduced this truthfulness history to boost the prediction scores, as speakers with a track record of lying are expected to have a lower chance of speaking the truth when classifying new statements.
 However, for our application we are only interested in the statement itself and its corresponding label. 
 Due to cheapness and spreadability, a large amount of fake news is spread over social media \cite{shu2017}. 
@@ -57,37 +57,33 @@ To combat this, the following regular expression was used to filter those statem
 \verb/\\.json\\t(mostly-true|true|half-true|false|barely-true|pants-fire)\/\\
 \\
 After applying this regular expression, the total amount of sentences in the statements were reduced from a maximum of 19 to a maximum of 11. 
+This reduced the original reported size of the dataset by 52 statements to a total of 12784. 
 
 \subsubsection{Reducing labels}
 
 Wang's main objective was to classify fake news into a fine-grained category of fakeness \cite{wang2018}.
 For our main research question, we aim to predict whether the statements are fake news or not. 
 This means the statements do not necessarily need to be distinguished into these fine-grained categories.
-Because of this, the classifiers used to predict fake news in this research will be trained on the original 6 labels, Khurana's division into three labels \cite{khurana2017}, and a binary classification.
-The division from the original 6 labels into the lesser amounts of labels can be seen in table 2. 
-This way, we can better compare performance of pre-trained embeddings to existing research on this dataset.
+Because of this, the classifiers used to predict fake news in this research will be trained on Khurana's division into 3 labels instead of the original 6 \cite{khurana2017}.
+The division from the original 6 labels into the 3 labels can be seen in table 2. 
+This way, we can compare performance of pre-trained embeddings to Khurana's purely traditional, linguistic approach to classification of this dataset.
 
 \begin{table}[]
     \centering
-    \begin{tabular}{|l|l|l|}
+    \begin{tabular}{|l|l|}
         \hline
-        \textbf{6 labels}                                              & \textbf{3 labels}                                                          & \textbf{2 labels}                                                          \\ \hline
-        \begin{tabular}[c]{@{}l@{}}true\\ (16.1\%)\end{tabular}        & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}true\\ (35,3\%)\end{tabular}}   & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}true\\ (55,8\%)\end{tabular}}   \\ \cline{1-1}
-        \begin{tabular}[c]{@{}l@{}}mostly-true\\ (19.2\%)\end{tabular} &                                                                            &                                                                            \\ \cline{1-2}
-        \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}   & \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}               &                                                                            \\ \hline
-        \begin{tabular}[c]{@{}l@{}}barely-true\\ (16.4\%)\end{tabular} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}false\\ (44,19\%)\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}false\\ (44,19\%)\end{tabular}} \\ \cline{1-1}
-        \begin{tabular}[c]{@{}l@{}}false\\ (19.6\%)\end{tabular}       &                                                                            &                                                                            \\ \cline{1-1}
-        \begin{tabular}[c]{@{}l@{}}pants-fire\\ (8.19\%)\end{tabular}  &                                                                            &                                                                            \\ \hline
+        \textbf{6 labels}                                              & \textbf{3 labels}                                                          \\ \hline
+        \begin{tabular}[c]{@{}l@{}}true\\ (16.1\%)\end{tabular}        & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}true\\ (35,3\%)\end{tabular}}   \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}mostly-true\\ (19.2\%)\end{tabular} &                                                                            \\ \cline{1-2}
+        \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}   & \begin{tabular}[c]{@{}l@{}}half-true\\ (20.5\%)\end{tabular}               \\ \hline
+        \begin{tabular}[c]{@{}l@{}}barely-true\\ (16.4\%)\end{tabular} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}false\\ (44,19\%)\end{tabular}} \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}false\\ (19.6\%)\end{tabular}       &                                                                            \\ \cline{1-1}
+        \begin{tabular}[c]{@{}l@{}}pants-fire\\ (8.19\%)\end{tabular}  &                                                                            \\ \hline
     \end{tabular}
     \caption{Distribution of labels from the original label distribution when reducing the amount of labels.}
 \end{table}
 
 \subsection{Methods}
-% Hoe je je vraag gaat beantwoorden.
-% Dit is de langste sectie van je scriptie. 
-% Als iets erg technisch wordt kan je een deel naar de Appendix verplaatsen. 
-% Probeer er een lopend verhaal van te maken.
-% Het is heel handig dit ook weer op te delen nav je deelvragen:
 
 \subsubsection{Applying embedding techniques}
 As our main research question is focussed on pre-trained word embeddings, the first step in the classification process is to turn the statements of the Liar dataset into vectors. 
@@ -114,13 +110,13 @@ This corpus contained approximately 5.5 billion tokens, crawled from Wikipedia a
 
 The representation is formed from combining internal states of the LSTM. 
 The higher level LSTM states capture context-dependent aspects of word meaning, while the lower level states model aspect of syntax.
-Combining these internal states allows for rich representations that capture both complex characteristics of word use (syntax and semantics) and how word uses vary across linguistic contexts\cite{peters2018}.
+Combining these internal states allows for rich representations that capture both complex characteristics of word use (syntax and semantics) and how word uses vary across linguistic contexts \cite{peters2018}.
 
-The used model for our use will be the original ELMo model, containing 93.6 million parameters.
+The model for our use will be the original ELMo model, containing 93.6 million parameters.
 Each created word vector has a length of 3072. 
 
 \paragraph{Generative Pre-Training (GPT)}
-OpenAI's GPT model is among the first text embedding methods to use the Transformer architecture by Vaswani et al., as described in section 2.2 \cite{vaswani2017}.
+OpenAI's GPT model is among the first text embedding methods to use the Transformer architecture by Vaswani et al. \cite{vaswani2017}, as described in section 2.2.
 Radford et al. chose specifically for this architecture, as these types of models allow for a more structured memory for handling long-term dependencies in text.
 This results in a robust transfer performance across different tasks. 
 
@@ -140,13 +136,13 @@ For pre-training, a sequence of characters is passed to this architecture, which
 Then, the hidden states of the neural network are used to create contextualized word embeddings.
 
 Akbik et al. also proposed the concept of stacking embeddings, allowing for traditional word embeddings to be combined with Flair embeddings.
-This potentially created word vectors that contain greater latent word-level semantics by concatenating embedding vectors trained on a character level and on a word level \cite{akbik2018}.
+This has the potential to create word vectors that contain greater latent word-level semantics by concatenating embedding vectors trained on a character level and on a word level \cite{akbik2018}.
 
 For our use, the recommended configuration of stacked embeddings by the Flair repository are used \cite{flairembedding}: this is a combination of GloVe word embeddings \cite{pennington2014} and both forward and backward Flair embeddings.
 Each created word vector from these stacked embeddings has a length of 4196, which is the longest vector length of all embedding techniques listed in section 3.3.1. 
 
 \paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
-Devlin et al. propose a embedding technique which is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
+Devlin et al. propose an embedding technique which is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
 Pre-training is conducted on 2 unsupervised learning tasks. 
 The first utilizes a masked language model (MLM), which randomly masks some of the tokens from the input with the objective to predict the masked word, based only on its context.
 This MLM fuses the context to the left and to the right, allowing pre-training of a deep bi-directional Transformer architecture.
@@ -154,7 +150,7 @@ In the second task, the model takes a sentence, and predicts the next sentence i
 The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding \cite{devlin2018}. 
 
 The model used for embedding our statements will be the original BERT Uncased model, which contains 110 million parameters and 12 layers. 
-Pre-training for this model was conducted using a combination of the BooksCorpus (800 million words) and Wikipedia (2.500 million words).
+Pre-training for this model was conducted using a combination of the BooksCorpus (800 million words) and Wikipedia (2500 million words).
 Each created word vector has a length of 3072. 
 
 \paragraph{Transformer-XL}
@@ -167,12 +163,13 @@ Each created word vector has a length of 1024.
 
 \subsubsection{Pooling and padding}
 For our classification tasks, we need to transform the shape of our data to a uniform style.
+As described in section 2.3 and 2.4, we will make use of pooling and padding techniques to achieve this.
 
 \paragraph{Applying pooling}
 In section 2.3, we have identified three simple mathematical operations to reduce our vector length to a fixed length.
-We will apply average pooling, max pooling and min pooling and test their accuracy on a classifier to test what pooling technique works best on each embebdding technique.
+We will apply average pooling, max pooling and min pooling and test their accuracies on a classifier to test what pooling technique works best for each embedding technique.
 For applying these transformations, the NumPy package will be used \cite{numpy}.
-NumPy contains tools for easily working with multi-dimensional arrays, and allows us to easily manipulate data. 
+NumPy contains tools for working with multi-dimensional arrays, and allows us to easily manipulate data. 
 
 \begin{figure}[h]
     \centering
@@ -180,7 +177,7 @@ NumPy contains tools for easily working with multi-dimensional arrays, and allow
     \caption{Applying pooling to reduce a matrix to a single vector.}
 \end{figure}
 
-As can be seen in figure 2\todo{Check whether this number is still correct}, applying a pooling operation is rather straight-forward: for every word vector, the floating point number at every $n$th index is gathered.
+As can be seen in figure 2, applying a pooling operation is rather straight-forward: for every word vector, the floating point number at every $n$th index is gathered.
 After that, a mathematical operation is performed to reduce those numbers to a single number, which will become the number in the $n$th index of the final full statement vector.
 
 \paragraph{Applying padding}
@@ -211,15 +208,14 @@ To make the results of our embedding techniques comparable to existing research,
 \end{enumerate}
 
 For all classifiers, hyperparameters will be tuned on the validation set to keep the experimental settings as close to the original setup by Wang as possible.
-As reported by Wang, because the Liar dataset is balanced, f-measures and accuracies are expected to be similar \cite{wang2018}.
-Because of this, performance of classifications will be reported using accuracy over the test set as an evaluation metric. 
-Each neural classification will be run 5 times, and the reported score will be the average of those 5 scores, with the aim of reducing as much random effects as possible. 
+Performance of the classifications will be reported using accuracy over the test set as an evaluation metric, similar to the research conducted by Khurana and Wang \cite{wang2018}\cite{khurana2017}. 
+To reduce as much random effects as possible on the neural classifications, each neural classification will be run 5 times, and the reported score will be the average of those 5 scores. 
 
 For the first three non-neural classification algorithms, scikit-learn will be used for implementation \cite{scikit-learn}. 
 To tune the regularization strength for the logistic regression and SVM implementation and to tune the learning rate of the gradient boosting, a grid search will be used. 
 
 The Keras library will be used for the neural architectures \cite{keras}.
-Both neural classifiers will use a dropout keep probability of 0.8 without a $L_{2}$ penalty.
+Both neural classifiers will use a dropout keep probability of 0.8.
 A batch size of 64 and 5 training epochs will be set. 
 The convolutional neural network will consist of three layers with a filter size of (2, 3, 4).
 Each layer will implement 128 filters and will utilize a ReLu activation function.
