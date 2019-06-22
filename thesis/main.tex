@@ -1,20 +1,16 @@
-\documentclass[a4paper,pdf]{article} % gebruik acm style voor je scriptie: [format=acmsmall, screen=true, review=false]{acmart} 
+\documentclass[a4paper,pdf]{article} 
 
-
-%\documentclass[sigconf]{acmart} 
-%\documentclass[sigconf,format=acmsmall, screen=true, review=false]{acmart} 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{hyperref}
-\usepackage{pdfpages} % http://mirror.unl.edu/ctan/macros/latex/contrib/pdfpages/pdfpages.pdf
+\usepackage{pdfpages} 
 \usepackage{booktabs} 
-
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
-\usepackage[colorinlistoftodos]{todonotes} % handig voor commentaar: gebruik \todo{}, zie ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/todonotes/todonotes.pdf
+\usepackage[colorinlistoftodos]{todonotes}
 \usepackage{listings}
 \usepackage{multirow}
 \usepackage{tcolorbox}
@@ -22,7 +18,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-% Add numbering for paragraphs
 \usepackage{titlesec}
 \setcounter{secnumdepth}{4}
 \titleformat{\paragraph}
@@ -30,30 +25,22 @@
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
-% when writing in Dutch
-%\usepackage[dutch]{babel}
-%\selectlanguage{dutch}
-
-
-% linenumbering  See https://texblog.org/2012/02/08/adding-line-numbers-to-documents/
-% \usepackage{lineno}
-% \linenumbers
-
-\newcommand{\shorttitle}{} % Put your short title here
+\newcommand{\shorttitle}{}
 \begin{document}
 
 \input{titlepage}
 
 \pagebreak
 
-%\todototoc
-%\listoftodos
-
 \pagebreak
 
 \begin{abstract}
-% [CHANGE] 
-\todo{Add an abstract}
+76\% of young adults in the United States consume their news via the Internet. 
+As a result, society is more prone to the spread of falsehoods compared to the pre-Internet era, where broadcasting information on a large scale was only in the hands of large publishing organizations.
+Due to weaknesses in human perception, an automated approach to recognizing fake news is needed. 
+This thesis explores the usage of state-of-the-art natural language techniques to classify fake news. 
+To create a text classifier, techniques for creating a uniform shape are explored.
+By combining a pre-trained word embedding technique with a logistic regression, an accuracy can be reached that surpasses current research using traditional linguistic features.
 \end{abstract}
 
 \pagebreak
@@ -62,15 +49,11 @@
 
 \pagebreak
 
-% Here you input all your sections in seperate files
-
 \input{introduction}
 \input{related_work}
 \input{methodology}
 \input{evaluation}
 \input{conclusions}
-
-% your refs
 
 \pagebreak
 
@@ -78,7 +61,5 @@
 \bibliography{bibliography}
 
 \appendix
-
-%\input{appendix}
  
 \end{document}
