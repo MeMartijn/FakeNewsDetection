@@ -1,9 +1,20 @@
 \section{Conclusions}
-% Hierin beantwoord je jouw hoofdvraag op basis van het eerder vergaarde bewijs.
+The main aim of this thesis has been to apply new techniques to battle the problem of fake news.
+As social media emerges as the main platform for consumption of news, the spread of falsehoods is increasing. 
+An automated way to detect lies could assist to combat this development by both supplying tools for factchecking organizations to speed up their process, or to counter subjective human intuition.
+
+Various state-of-the-art word embedding techniques have been used in combination with a set of both neural and non-neural classification algorithms to classify fake news.
+To turn raw textual data into a uniform shape, both padding and pooling techniques have been compared. 
+The amount of padding and the robust performance even on lower amounts of words allowed us to believe that pre-trained word embeddings above all contain contextual data, making an increase of word vectors unnecessary, as a small amount of word vectors already contain a large chunk of data concerning the context of the whole sentence. 
+
+To conclude, the highest achieved accuracy was 52,96\% with a combination of BERT, which is a Transformer-based embedding technique, and a logistic regression.
+This combination performed almost 4\% better than recent research to this same dataset, but using traditional linguistic features. 
 
 \subsection{Acknowledgements}
 First of all, I would like to thank my supervisor, dr. Maarten Marx, for his guidance and advice in the past couple of weeks. 
-I also want to thank Wesley Teunissen for helping me gathering the results, and Agnita Tesselaar for bringing me all the cups of tea in the past three years.
+I also want to thank Wesley Teunissen for all of the effort to help me gather the results, and Agnita Tesselaar for bringing me all the cups of tea in the past three years.
 
 This thesis is dedicated to my grandfather, Theodorus Tesselaar.
 Although he is not with us anymore, my Mom said he would have been proud of me. 
+
+\pagebreak
