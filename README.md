@@ -32,7 +32,7 @@ You can install these packages by running `pip install -r /code/requirements.txt
 <a name="results">
 
 ## Results
-![Experiment results](https://imgur.com/9E87eEb)
+![Experiment results](https://imgur.com/9E87eEb.png)
 
 With a combination of BERT embeddings and a logistic regression, an accuracy of 52.96% on 3 labels can be achieved, which is an increase of almost 4% compared to [previous research in which only traditional linguistic methods were used](https://esc.fnwi.uva.nl/thesis/centraal/files/f1840275767.pdf). 
 On the original 6 labels, this combination achieves an accuracy of 27.51%, which is 0.51% better than the [original research by Wang (2017)](https://arxiv.org/abs/1705.00648). 
