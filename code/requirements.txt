@@ -9,3 +9,4 @@ spacy
 hypopt
 keras
 gensim
+fasttext

@@ -20,6 +20,7 @@ To run the code in the `code` folder, the following packages must be installed:
 - `spacy`
 - `hypopt`
 - `gensim`
+- `fasttext`
 
 You can install these packages by running `pip install -r /code/requirements.txt`. 
 
