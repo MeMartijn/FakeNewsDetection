@@ -8,3 +8,4 @@ pytorch_pretrained_bert
 spacy
 hypopt
 keras
+gensim
