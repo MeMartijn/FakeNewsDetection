@@ -52,7 +52,7 @@ class Classifiers:
 
         # Set model parameters
         epochs = 5
-        batch_size = 64
+        batch_size = 32
         input_shape = inputs['X_train'].shape
 
         # Create the model
@@ -117,7 +117,7 @@ class Classifiers:
 
         # Set model parameters
         epochs = 5
-        batch_size = 64
+        batch_size = 32
         input_shape = inputs['X_train'].shape
 
         # Create the model
