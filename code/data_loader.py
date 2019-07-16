@@ -104,7 +104,7 @@ class FlairEncoder:
                         FlairEmbeddings('news-forward'),
                         FlairEmbeddings('news-backward'),
                     ])
-                elif embedding[:-1] == ')':
+                elif embedding[-1:] == ')':
                     # This embedding has parameters
                     embedding = eval(embedding)
                 else:
