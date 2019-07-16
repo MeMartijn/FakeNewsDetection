@@ -104,6 +104,9 @@ class FlairEncoder:
                         FlairEmbeddings('news-forward'),
                         FlairEmbeddings('news-backward'),
                     ])
+                elif embedding[:-1] == ')':
+                    # This embedding has parameters
+                    embedding = eval(embedding)
                 else:
                     embedding = eval(embedding + '()')
 
@@ -458,6 +461,7 @@ class DataLoader:
         self.get_transformerxl = get_flair_embedding('TransformerXLEmbeddings', self.data_dir, self.df)
         self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
+        self.get_fasttext = get_flair_embedding('WordEmbeddings("en-crawl")', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
     
     @staticmethod
