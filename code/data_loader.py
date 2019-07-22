@@ -24,6 +24,17 @@ from nltk import tokenize
 # doc2vec
 import gensim
 
+# Pytorch-Transformer based imports
+from models import get_transformer_embedding
+from pytorch_transformers import (
+    XLNetModel,
+    XLNetTokenizer,
+    XLMModel,
+    XLMTokenizer,
+    GPT2Model,
+    GPT2Tokenizer,
+)
+
 class FlairEncoder:
     '''An interface for interacting with Zalando's Flair library'''
     def __init__(self, embedding, data_dir, data):
@@ -463,6 +474,9 @@ class DataLoader:
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
         self.get_fasttext = get_flair_embedding('WordEmbeddings("en-crawl")', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
+        self.get_gpt2 = get_flair_embedding('get_transformer_embedding(GPT2Tokenizer, GPT2Model, "gpt2")', self.data_dir, self.df)
+        self.get_xlnet = get_flair_embedding('get_transformer_embedding(XLNetTokenizer, XLNetModel, "xlnet-base-cased")', self.data_dir, self.df)
+        self.get_xlm = get_flair_embedding('get_transformer_embedding(XLMTokenizer, XLMModel, "xlm-mlm-enfr-1024")', self.data_dir, self.df)
     
     @staticmethod
     def apply_pooling(technique, df):
