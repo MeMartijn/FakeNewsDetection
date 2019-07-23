@@ -50,8 +50,16 @@ class FlairEncoder:
         '''Return the embedding representation of the dataset'''
         def get_embedding_dir(embedding):
             '''Turn the name of the embedding technique into a specific folder'''
-            # Remove 'Embeddings' from the embedding name and lowercase it
-            return embedding[:-10].lower()
+            if embedding[-1:] == ')':
+                # The embedding technique is part of a function
+                return re.search(r'"(.+)"', embedding).group(1)
+
+            elif embedding[-10:] == 'Embeddings':
+                # The embedding technique is part of the Flair library
+                return embedding.split('Embeddings')[0].lower()
+            
+            else:
+                raise ValueError('The requested embedding type is not supported by the data loader.')
 
         def create_embedding(statement, embedding):
             '''Create a single embedding from a piece of text'''
