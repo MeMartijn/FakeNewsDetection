@@ -46,7 +46,7 @@ class FlairEncoder:
         self.data_dir = data_dir
         self.dfs = data
 
-    def get_embedded_dataset(self, save = False):
+    def get_embedded_dataset(self, save = True):
         '''Return the embedding representation of the dataset'''
         def get_embedding_dir(embedding):
             '''Turn the name of the embedding technique into a specific folder'''
@@ -136,11 +136,6 @@ class FlairEncoder:
                         lambda text: create_embedding(text, embedding)
                     )
 
-                    if embedding_dir == 'openaigpt' and dataset == 'train':
-                        # OpenAI's tokenizer errors on two sentences:
-                        dfs[dataset].loc['3561.json', 'statement'] = create_embedding('Says JoAnne Kloppenburgs side had a 3-to-1 money advantage in the Wisconsin Supreme Court campaign.', embedding)
-                        dfs[dataset].loc['4675.json', 'statement'] = create_embedding('Since Mayor Kennedy OBrien took office Sayreville has issued 22081 building permits! Now OBrien is holding secret meetings with big developers.', embedding)
-
                     if embedding_dir == 'flair' and dataset == 'train' and save:
                         # Flair produces files too large: we need to split them before being able to save as files
                         total_length = len(dfs[dataset])
@@ -153,9 +148,15 @@ class FlairEncoder:
                         flair_subset2.to_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset2.pkl'))
 
                         print('Because of the file size, the training set has been split and saved in two seperate files.')
-                    elif save: 
-                        # Create a location to save the datasets as pickle files
-                        os.mkdir(os.path.join(data_dir, embedding_dir))
+                    elif save:
+                        if embedding_dir not in os.listdir(data_dir):
+                            # Create a location to save the datasets as pickle files
+                            os.mkdir(os.path.join(data_dir, embedding_dir))
+
+                        if dataset == 'train':
+                            # Some tokenizers fail on these two statements
+                            dfs[dataset].loc['3561.json', 'statement'] = create_embedding('Says JoAnne Kloppenburgs side had a 3-to-1 money advantage in the Wisconsin Supreme Court campaign.', embedding)
+                            dfs[dataset].loc['4675.json', 'statement'] = create_embedding('Since Mayor Kennedy OBrien took office Sayreville has issued 22081 building permits! Now OBrien is holding secret meetings with big developers.', embedding)
 
                         # Save the dataset as pickle file
                         file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
