@@ -17,7 +17,7 @@ from models import InferSent
 
 # Flair embedding imports
 from flair.data import Sentence
-from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings
+from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings, XLMEmbeddings, XLNetEmbeddings, OpenAIGPT2Embeddings
 import os
 from nltk import tokenize
 
@@ -472,6 +472,9 @@ class DataLoader:
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
         self.get_fasttext = get_flair_embedding('WordEmbeddings("en-crawl")', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
+        self.get_gpt2 = get_flair_embedding('OpenAIGPT2Embeddings', self.data_dir, self.df)
+        self.get_xlm = get_flair_embedding('XLMEmbeddings', self.data_dir, self.df)
+        self.get_xlnet = get_flair_embedding('XLNetEmbeddings', self.data_dir, self.df)
     
     @staticmethod
     def apply_pooling(technique, df):
