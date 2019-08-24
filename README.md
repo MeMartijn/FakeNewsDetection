@@ -20,7 +20,6 @@ To run the code in the `code` folder, the following packages must be installed:
 - `tensorflow`
 - `tensorflow_hub`
 - `pytorch`
-- `pytorch_pretrained_bert`
 - `spacy`
 - `hypopt`
 - `gensim`

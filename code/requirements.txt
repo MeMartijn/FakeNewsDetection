@@ -1,4 +1,4 @@
-flair
+flair>=0.4.3
 allennlp
 tensorflow
 tensorflow_hub
