@@ -101,9 +101,14 @@ Using Flair, we have access to the following 5 state-of-the-art pre-trained embe
     \item XLM \todo{Add references}.
 \end{itemize}
 
+For each of our embedding techniques, we will generate a new dataset with statements from the Liar dataset in their embedded form. 
+These datasets will then be used for classification, without the datasets being specifically adjusted or finetuned for specific models.
+This allows us to independently compare classification models for each of our embedding techniques. 
+
 To apply these embeddings, the Flair framework first requires a sentence object to be created \cite{flairsentence}.
 For dividing the statements into sentences, the \texttt{sent\_tokenize} function from the \texttt{nltk} package will be used \cite{nltktokenize}. 
 After applying this split, Flair's sentence object takes care of tokenization and applying the selected embedding technique.
+This way, all statements of the Liar dataset will be turned into other representations one by one and saved for future use.
 
 \paragraph{Embeddings from Language Models (ELMo)}
 The first word embedding technique, ELMo, is based on a bidirectional language model. 
