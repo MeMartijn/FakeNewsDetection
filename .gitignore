@@ -10,8 +10,8 @@
 *.toc
 *.synctex.gz
 *.fdb_latexmk
-thesis/acmart.cls
-thesis/*.bbl
+paper/acmart.cls
+paper/*.bbl
 code/data/bag-of-words
 __latexindent_temp.tex
 code/data/*
