@@ -11,7 +11,7 @@ The distribution of statements across the 6 labels can be seen in table 2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.25]{subjectwordcloud}
+    \includegraphics[width=0.9\columnwidth]{subjectwordcloud}
     \caption{An overview of all statement topics in the Liar dataset.}
 \end{figure}
 
@@ -22,7 +22,7 @@ However, for our application we are only interested in the statement itself and 
 Due to cheapness and spreadability, a large amount of fake news is spread over social media \cite{shu2017}. 
 This means author information and metadata will not readily be available in real world circumstances.
 
-\begin{table}[]
+\begin{table*}[t]
     \centering
     \begin{tabular}{ll}
         \hline
@@ -42,7 +42,7 @@ This means author information and metadata will not readily be available in real
         pants\_on\_fire\_count & 61                                                              \\ \hline
     \end{tabular}
     \caption{An example entry in the Liar dataset.}
-\end{table}
+\end{table*}
 
 The original dataset has been split beforehand into a test, train and validation set. 
 The train set contains 80\% of the total amount of statements, while the test and validation set both contain approximately 10\% of the statements. 
@@ -53,9 +53,15 @@ The original dataset contained statements ranging from 1 sentence to 19.
 On closer inspection of statements with the high amounts of sentences, it was found that not all statements were processed from source files into dataframes correctly.
 As a result, records of some different statements were joined together, forming a single string.
 To combat this, the following regular expression was used to filter those statements out:\\
-\\
-\verb/\\.json\\t(mostly-true|true|half-true|false|barely-true|pants-fire)\/\\
-\\
+
+\begin{quote}
+    \begin{scriptsize}
+        \begin{verbatim}
+            \.json\t(mostly-true|true|half-true|false|barely-true|pants-fire)
+        \end{verbatim}
+    \end{scriptsize}
+\end{quote}
+
 After applying this regular expression, the total amount of sentences in the statements were reduced from a maximum of 19 to a maximum of 11. 
 This reduced the original reported size of the dataset by 52 statements to a total of 12784. 
 
@@ -96,9 +102,7 @@ Using Flair, we have access to the following 5 state-of-the-art pre-trained embe
     \item Generative Pre-Training (GPT) \cite{radford2018};
     \item Transformer-XL \cite{dai2019};
     \item Flair \cite{akbik2019};
-    \item GPT-2 \cite{radford2019};
-    \item XLNet \todo{Add references};
-    \item XLM \todo{Add references}.
+    \item GPT-2 \cite{radford2019}.
 \end{itemize}
 
 For each of our embedding techniques, we will generate a new dataset with statements from the Liar dataset in their embedded form. 
@@ -171,9 +175,6 @@ Each created word vector has a length of 1024.
 
 \paragraph{GPT-2}
 
-\paragraph{XLNet}
-
-\paragraph{XLM}
 
 \subsubsection{Pooling and padding}
 For our classification tasks, we need to transform the shape of our data to a uniform style.
@@ -187,7 +188,7 @@ NumPy contains tools for working with multi-dimensional arrays, and allows us to
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.5]{applyingpooling}
+    \includegraphics[width=0.9\columnwidth]{applyingpooling}
     \caption{Applying pooling to reduce a matrix to a single vector.}
 \end{figure}
 

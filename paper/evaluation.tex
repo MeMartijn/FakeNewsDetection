@@ -12,7 +12,7 @@ We can conclude that $L_{2}$ regularization works best on most of our models.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.5]{regularizationcomparison}
+    \includegraphics[width=0.9\columnwidth]{regularizationcomparison}
     \caption{Comparing performance between a $L_{1}$ regularization and a $L_{2}$ regularization on max pooled datasets.}
 \end{figure}
 
@@ -24,7 +24,7 @@ For 3 of our embeddings, the max pooling operation resulted in a higher accuracy
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{poolingaccuracy}
+    \includegraphics[width=0.9\columnwidth]{poolingaccuracy}
     \caption{Comparing different pooling strategies.}
 \end{figure}
 
@@ -32,7 +32,7 @@ For 3 of our embeddings, the max pooling operation resulted in a higher accuracy
 
 \begin{figure}[b!]
     \centering
-    \includegraphics[scale=0.45]{wordlength}
+    \includegraphics[width=0.9\columnwidth]{wordlength}
     \caption{Total token counts per statement on the Liar dataset.}
 \end{figure}
 
@@ -40,19 +40,14 @@ To find out which sequence length is optimal for neural classification, data wit
 The lengths between two standard deviations from the median of the total word lengths per statement have been used as a cutoff point, as is illustrated in figure 5. 
 This allows the highest cutoff point (\(median + 2 \times \sigma \approx 36\)) to still contain approximately 80\% of the tokens of the longest statement.
 
-\begin{figure}[hbtp]
-    \centering
-    \begin{subfigure}[b]{1\textwidth}
-       \includegraphics[width=1\linewidth]{bilstmaccuracies}
-       \caption{Bidirectional LSTM accuracies.}
-    \end{subfigure}
+\begin{figure}[b]{1\textwidth}
+    \includegraphics[width=0.9\columnwidth]{bilstmaccuracies}
+    \caption{Test set accuracies with variable maximum lengths over a bidirectional LSTM architecture.}
+\end{figure}
     
-    \begin{subfigure}[b]{1\textwidth}
-       \includegraphics[width=1\linewidth]{cnnaccuracies}
-       \caption{Convolutional neural network accuracies.}
-    \end{subfigure}
-    
-    \caption{Test set accuracies with variable maximum lengths over neural network architectures.}
+\begin{figure}[b]{1\textwidth}
+    \includegraphics[width=0.9\columnwidth]{cnnaccuracies}
+    \caption{Test set accuracies with variable maximum lengths over a convolutional neural network.}
 \end{figure}
 
 In figure 6, the accuracies with different amounts of padding can be seen compared to our 3 baselines: Khurana's best score, the majority baseline and our own best score using the doc2vec language model.
@@ -70,7 +65,7 @@ The results are shown in figure 7.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.5]{linearvsneural}
+    \includegraphics[width=0.9\columnwidth]{linearvsneural}
     \caption{Comparing different non-neural classifiers with neural classifiers.}
 \end{figure}
 
