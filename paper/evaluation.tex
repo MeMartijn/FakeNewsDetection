@@ -40,12 +40,12 @@ To find out which sequence length is optimal for neural classification, data wit
 The lengths between two standard deviations from the median of the total word lengths per statement have been used as a cutoff point, as is illustrated in figure 5. 
 This allows the highest cutoff point (\(median + 2 \times \sigma \approx 36\)) to still contain approximately 80\% of the tokens of the longest statement.
 
-\begin{figure}[b]{1\textwidth}
+\begin{figure}[b]
     \includegraphics[width=0.9\columnwidth]{bilstmaccuracies}
     \caption{Test set accuracies with variable maximum lengths over a bidirectional LSTM architecture.}
 \end{figure}
     
-\begin{figure}[b]{1\textwidth}
+\begin{figure}[b]
     \includegraphics[width=0.9\columnwidth]{cnnaccuracies}
     \caption{Test set accuracies with variable maximum lengths over a convolutional neural network.}
 \end{figure}
