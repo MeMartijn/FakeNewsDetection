@@ -94,7 +94,7 @@ This way, we can compare performance of pre-trained embeddings to Khurana's pure
 \subsubsection{Applying embedding techniques}
 As our main research question is focussed on pre-trained word embeddings, the first step in the classification process is to turn the statements of the Liar dataset into vectors. 
 For this purpose, the Flair framework will be used. 
-Flair contains interfaces for turning words into embeddings, built on the PyTorch platform \cite{flairrepo}\cite{pytorch}. 
+Flair contains interfaces for turning words into embeddings, built on the PyTorch platform \cite{flairrepo,pytorch}. 
 Using Flair, we have access to the following 5 state-of-the-art pre-trained embedding techniques: 
 \begin{itemize}
     \item ELMo (Embeddings from Language Models) \cite{peters2018};
@@ -212,7 +212,7 @@ Together with the majority vote and the best score from previous research, the d
 For gathering doc2vec scores, the doc2vec interface in the Gensim library will be used \cite{gensim}. 
 
 \subsubsection{Classification}
-To make the results of our embedding techniques comparable to existing research, four classifiers of Wang and the top performing model of Khurana will be used to classify our statements \cite{wang2018}\cite{khurana2017}:
+To make the results of our embedding techniques comparable to existing research, four classifiers of Wang and the top performing model of Khurana will be used to classify our statements \cite{wang2018,khurana2017}:
 
 \begin{enumerate}
     \item Logistic regression;
@@ -223,7 +223,7 @@ To make the results of our embedding techniques comparable to existing research,
 \end{enumerate}
 
 For all classifiers, hyperparameters will be tuned on the validation set to keep the experimental settings as close to the original setup by Wang as possible.
-Performance of the classifications will be reported using accuracy over the test set as an evaluation metric, similar to the research conducted by Khurana and Wang \cite{wang2018}\cite{khurana2017}. 
+Performance of the classifications will be reported using accuracy over the test set as an evaluation metric, similar to the research conducted by Khurana and Wang \cite{wang2018,khurana2017}. 
 To reduce as much random effects as possible on the neural classifications, each neural classification will be run 5 times, and the reported score will be the average of those 5 scores. 
 
 For the first three non-neural classification algorithms, scikit-learn will be used for implementation \cite{scikit-learn}. 
