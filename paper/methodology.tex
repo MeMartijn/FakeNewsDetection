@@ -47,25 +47,7 @@ This means author information and metadata will not readily be available in real
 The original dataset has been split beforehand into a test, train and validation set. 
 The train set contains 80\% of the total amount of statements, while the test and validation set both contain approximately 10\% of the statements. 
 
-\subsection{Data preprocessing and cleaning}
-\subsubsection{Filtering statements}
-The original dataset contained statements ranging from 1 sentence to 19. 
-On closer inspection of statements with the high amounts of sentences, it was found that not all statements were processed from source files into dataframes correctly.
-As a result, records of some different statements were joined together, forming a single string.
-To combat this, the following regular expression was used to filter those statements out:\\
-
-\begin{quote}
-    \begin{scriptsize}
-        \begin{verbatim}
-            \.json\t(mostly-true|true|half-true|false|barely-true|pants-fire)
-        \end{verbatim}
-    \end{scriptsize}
-\end{quote}
-
-After applying this regular expression, the total amount of sentences in the statements were reduced from a maximum of 19 to a maximum of 11. 
-This reduced the original reported size of the dataset by 52 statements to a total of 12784. 
-
-\subsubsection{Reducing labels}
+\subsection{Data preprocessing}
 
 Wang's main objective was to classify fake news into a fine-grained category of fakeness \cite{wang2018}.
 For our main research question, we aim to predict whether the statements are fake news or not. 
@@ -128,17 +110,17 @@ The model for our use will be the original ELMo model, containing 93.6 million p
 Each created word vector has a length of 3072. 
 
 \paragraph{Generative Pre-Training (GPT)}
-OpenAI's GPT model is among the first text embedding methods to use the Transformer architecture by Vaswani et al. \cite{vaswani2017}, as described in section 2.2.
-Radford et al. chose specifically for this architecture, as these types of models allow for a more structured memory for handling long-term dependencies in text.
+OpenAI's GPT model is among the first text embedding methods to use the Transformer architecture by Vaswani et al. \cite{vaswani2017}.
+Radford et al. (2018) chose specifically for this architecture, as these types of models allow for a more structured memory for handling long-term dependencies in text.
 This results in a robust transfer performance across different tasks. 
 
 GPT's training procedure consists of two stages: learning a language model on a large corpus of text, and a fine-tuning stage, where the model is adapted to a task with labeled data.
-For learning the language model, the BooksCorpus dataset was used, which contains over 7000 books, and is of comparable size to the datasets used to pre-train ELMo embeddings \cite{radford2018}.
+For learning the language model, the BooksCorpus dataset was used, which contains over 7000 books, and is of comparable size to the datasets used to pre-train ELMo embeddings \nocite{radford2018}.
 
 Each created word vector has a length of 1536.
 
 \paragraph{Flair}
-Just like the ELMo embeddings proposed by Peters et al. \cite{peters2018}, Akbik et al. proposed Flair embeddings, which are contextualized word embeddings on a character level.
+Just like the ELMo embeddings proposed by Peters et al. (2018)\nocite{peters2018}, Akbik et al. (2018) proposed Flair embeddings, which are contextualized word embeddings on a character level.
 According to these authors, \textit{contextual string embeddings are powerful embeddings that capture latent syntactic-semantic information that goes beyond standard word embeddings. 
 Key differences are: (1) they are trained without any explicit notion of words and thus fundamentally model words as sequences of characters. 
 And (2) they are contextualized by their surrounding text, meaning that the same word will have different embeddings depending on its contextual use} \cite{flairembedding}. 
@@ -148,27 +130,27 @@ For pre-training, a sequence of characters is passed to this architecture, which
 Then, the hidden states of the neural network are used to create contextualized word embeddings.
 
 Akbik et al. also proposed the concept of stacking embeddings, allowing for traditional word embeddings to be combined with Flair embeddings.
-This has the potential to create word vectors that contain greater latent word-level semantics by concatenating embedding vectors trained on a character level and on a word level \cite{akbik2018}.
+This has the potential to create word vectors that contain greater latent word-level semantics by concatenating embedding vectors trained on a character level and on a word level\nocite{akbik2018}.
 
 For our use, the recommended configuration of stacked embeddings by the Flair repository are used \cite{flairembedding}: this is a combination of GloVe word embeddings \cite{pennington2014} and both forward and backward Flair embeddings.
 Each created word vector from these stacked embeddings has a length of 4196, which is the longest vector length of all embedding techniques listed in section 3.3.1. 
 
 \paragraph{Bidirectional Encoder Representations from Transformer (BERT)}
-Devlin et al. propose an embedding technique which is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
+Devlin et al. (2018) propose an embedding technique which is also based on the Transformer architecture described in section 2.2, but differs from the GPT Transformer, as it is trained using bi-directional self-attention instead of GPT's constrained left-only self-attention.
 Pre-training is conducted on 2 unsupervised learning tasks. 
 The first utilizes a masked language model (MLM), which randomly masks some of the tokens from the input with the objective to predict the masked word, based only on its context.
 This MLM fuses the context to the left and to the right, allowing pre-training of a deep bi-directional Transformer architecture.
 In the second task, the model takes a sentence, and predicts the next sentence in the sequence. 
-The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding \cite{devlin2018}. 
+The first task is aimed on word level, while this second learning task aims at the model's sentence level understanding \nocite{devlin2018}. 
 
 The model used for embedding our statements will be the original BERT Uncased model, which contains 110 million parameters and 12 layers. 
 Pre-training for this model was conducted using a combination of the BooksCorpus (800 million words) and Wikipedia (2500 million words).
 Each created word vector has a length of 3072. 
 
 \paragraph{Transformer-XL}
-Dai et al. build further on the original Transformer architecture with the Transformer-XL model, but add recurrence to allow for the model to conserve hidden states across batches.
+Dai et al. (2019) build further on the original Transformer architecture with the Transformer-XL model, but add recurrence to allow for the model to conserve hidden states across batches.
 This means that for each new batch, the model uses previous batches to predict the first few symbols of the current batch.
-By using this concept of recurrence, the Transformer-XL architecture allows for creating long-term dependencies \cite{dai2019}. 
+By using this concept of recurrence, the Transformer-XL architecture allows for creating long-term dependencies \nocite{dai2019}. 
 
 The model is pre-trained on the WikiText-103 dataset, which contains over 100 million tokens and is particularly focussed on long-term dependencies \cite{merity2017}. 
 Each created word vector has a length of 1024. 
@@ -178,10 +160,10 @@ Each created word vector has a length of 1024.
 
 \subsubsection{Pooling and padding}
 For our classification tasks, we need to transform the shape of our data to a uniform style.
-As described in section 2.3 and 2.4, we will make use of pooling and padding techniques to achieve this.
+As described earlier, we will make use of pooling and padding techniques to achieve this.
 
 \paragraph{Applying pooling}
-In section 2.3, we have identified three simple mathematical operations to reduce our vector length to a fixed length.
+In our related work, we have identified three simple mathematical operations to reduce our vector length to a fixed length.
 We will apply average pooling, max pooling and min pooling and test their accuracies on a classifier to test what pooling technique works best for each embedding technique.
 For applying these transformations, the NumPy package will be used \cite{numpy}.
 NumPy contains tools for working with multi-dimensional arrays, and allows us to easily manipulate data. 
@@ -198,7 +180,7 @@ After that, a mathematical operation is performed to reduce those numbers to a s
 \paragraph{Applying padding}
 For neural architectures, three-dimensionally shaped data can be used for classification. 
 However, the problem still remains that each text sequence can have a different length of words. 
-Padding the sequences, as described in section 2.4, will be used to combat this.
+Padding the sequences will be used to combat this.
 
 For applying padding, we will use the \texttt{pad\_sequences} function from the Keras library \cite{keraspad}. 
 This function allows us to specify a maximum sequence length to transform all our statements into.
