@@ -4,7 +4,7 @@ In past research, there have been several attempts to create classifiers for aut
 Wang used both neural and non-neural classifiers to classify statements from the Liar dataset into 6 possible gradations of truthfulness. 
 Furthermore, he added speaker metadata to improve the result of his classifications.
 Both with and without introducing speaker metadata, the best performing architecture was found to be a convolutional neural network. 
-With an accuracy of 27\% without, and 27,4\% with metadata on the test set, Wang was able to perform 6,2\% and 6,6\% better than the majority baseline of 20,8\%\cite{wang2018}.
+With an accuracy of 27\% without, and 27,4\% with metadata on the test set, Wang was able to perform 6,2\% and 6,6\% better than the majority baseline of 20,8\% \cite{wang2018}.
 
 From the same dataset, Khurana extracted linguistic features such as n-grams, sentiment, number of capital letters and POS tags to classify the data into 3 labels instead of the original 6 labels. 
 For classification, she used a set of non-neural classifiers. 
@@ -42,20 +42,20 @@ As shown by the Bidirectional Encoder Representations from Transformer (BERT) mo
 Most non-neural classifiers need data in a two-dimensional uniform shape to be able to perform calculations. 
 In the case of raw text data, sentences in datasets often have variable word lengths, resulting in a different vector length when turning the texts into a vector representation.
 Furthermore, when dealing with vector representations of words, the shape of a statement is turned three-dimensional instead of the needed two-dimensionality for non-neural classifications.
-To turn the vector representations into a uniform length, we can either cut off the vectors at a fixed length (\textit{padding}), or we can perform calculations to reduce the length and dimensions of the vectors (\textit{pooling}).
+To turn the vector representations into a uniform length, there is the option of either cutting off the vectors at a fixed length (\textit{padding}), or performing calculations to reduce the length and dimensions of the vectors (\textit{pooling}).
 
 In computer vision, feature pooling is often used to reduce noise in data. 
 The goal of this step is to transform joint feature representations into a new, more usable one that preserves important information while discarding irrelevant details.
 Pooling techniques such as max pooling and average pooling perform mathematical operations to reduce several numbers into one \cite{boureau2010}. 
 In the case of transforming the shape of data, we can reduce vectors to the smallest vector in the dataset to create a uniform shape.
 
-Scherer et al. compared performance of two pooling operations on a convolutional neural network architecture. 
+Scherer et al. (2010) compared performance of two pooling operations on a convolutional neural network architecture. 
 The first pooling method extracted maximums and the second one was primarily based on working with averages.
-They have shown that a max pooling operation is vastly superior for capturing invariances in image-like data \cite{scherer2010}.
+They have shown that a max pooling operation is vastly superior for capturing invariances in image-like data\nocite{scherer2010}.
 
-Shen et al. noted that in text classification, only a small number of key words contribute to the final prediction.
-As a result, simple pooling operations are surprisingly effective for representing documents \cite{shen2018}.  
-Lai et al., Hu et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015}\cite{hu2014}\cite{zhang2015}. 
+Shen et al. (2018) noted that in text classification, only a small number of key words contribute to the final prediction.
+As a result, simple pooling operations are surprisingly effective for representing documents\nocite{shen2018}.  
+Lai et al., Hu et al. and Zhang et al. use a max pooling layer in a (recurrent) convolutional neural network for identifying key features in text classification \cite{lai2015,hu2014,zhang2015}. 
 For text classification, max pooling strategies seem to be the most popular. 
 
 \subsection{Padding}

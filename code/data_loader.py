@@ -17,7 +17,7 @@ from models import InferSent
 
 # Flair embedding imports
 from flair.data import Sentence
-from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings
+from flair.embeddings import ELMoEmbeddings, BertEmbeddings, TransformerXLEmbeddings, OpenAIGPTEmbeddings, WordEmbeddings, FlairEmbeddings, StackedEmbeddings, XLMEmbeddings, XLNetEmbeddings, OpenAIGPT2Embeddings
 import os
 from nltk import tokenize
 
@@ -35,12 +35,20 @@ class FlairEncoder:
         self.data_dir = data_dir
         self.dfs = data
 
-    def get_embedded_dataset(self, save = False):
+    def get_embedded_dataset(self, save = True):
         '''Return the embedding representation of the dataset'''
         def get_embedding_dir(embedding):
             '''Turn the name of the embedding technique into a specific folder'''
-            # Remove 'Embeddings' from the embedding name and lowercase it
-            return embedding[:-10].lower()
+            if embedding[-1:] == ')':
+                # The embedding technique is part of a function
+                return re.search(r'"(.+)"', embedding).group(1)
+
+            elif embedding[-10:] == 'Embeddings':
+                # The embedding technique is part of the Flair library
+                return embedding.split('Embeddings')[0].lower()
+            
+            else:
+                raise ValueError('The requested embedding type is not supported by the data loader.')
 
         def create_embedding(statement, embedding):
             '''Create a single embedding from a piece of text'''
@@ -104,6 +112,9 @@ class FlairEncoder:
                         FlairEmbeddings('news-forward'),
                         FlairEmbeddings('news-backward'),
                     ])
+                elif embedding[-1:] == ')':
+                    # This embedding has parameters
+                    embedding = eval(embedding)
                 else:
                     embedding = eval(embedding + '()')
 
@@ -113,11 +124,6 @@ class FlairEncoder:
                     dfs[dataset]['statement'] = dfs[dataset]['statement'].progress_map(
                         lambda text: create_embedding(text, embedding)
                     )
-
-                    if embedding_dir == 'openaigpt' and dataset == 'train':
-                        # OpenAI's tokenizer errors on two sentences:
-                        dfs[dataset].loc['3561.json', 'statement'] = create_embedding('Says JoAnne Kloppenburgs side had a 3-to-1 money advantage in the Wisconsin Supreme Court campaign.', embedding)
-                        dfs[dataset].loc['4675.json', 'statement'] = create_embedding('Since Mayor Kennedy OBrien took office Sayreville has issued 22081 building permits! Now OBrien is holding secret meetings with big developers.', embedding)
 
                     if embedding_dir == 'flair' and dataset == 'train' and save:
                         # Flair produces files too large: we need to split them before being able to save as files
@@ -131,9 +137,15 @@ class FlairEncoder:
                         flair_subset2.to_pickle(os.path.join(data_dir, embedding_dir, dataset + '_subset2.pkl'))
 
                         print('Because of the file size, the training set has been split and saved in two seperate files.')
-                    elif save: 
-                        # Create a location to save the datasets as pickle files
-                        os.mkdir(os.path.join(data_dir, embedding_dir))
+                    elif save:
+                        if embedding_dir not in os.listdir(data_dir):
+                            # Create a location to save the datasets as pickle files
+                            os.mkdir(os.path.join(data_dir, embedding_dir))
+
+                        if dataset == 'train':
+                            # Some tokenizers fail on these two statements
+                            dfs[dataset].loc['3561.json', 'statement'] = create_embedding('Says JoAnne Kloppenburgs side had a 3-to-1 money advantage in the Wisconsin Supreme Court campaign.', embedding)
+                            dfs[dataset].loc['4675.json', 'statement'] = create_embedding('Since Mayor Kennedy OBrien took office Sayreville has issued 22081 building permits! Now OBrien is holding secret meetings with big developers.', embedding)
 
                         # Save the dataset as pickle file
                         file_path = os.path.join(data_dir, embedding_dir, dataset + '.pkl')
@@ -458,7 +470,11 @@ class DataLoader:
         self.get_transformerxl = get_flair_embedding('TransformerXLEmbeddings', self.data_dir, self.df)
         self.get_gpt = get_flair_embedding('OpenAIGPTEmbeddings', self.data_dir, self.df)
         self.get_flair = get_flair_embedding('FlairEmbeddings', self.data_dir, self.df)
+        self.get_fasttext = get_flair_embedding('WordEmbeddings("en-crawl")', self.data_dir, self.df)
         self.get_doc2vec = get_doc2vec
+        self.get_gpt2 = get_flair_embedding('OpenAIGPT2Embeddings', self.data_dir, self.df)
+        self.get_xlm = get_flair_embedding('XLMEmbeddings', self.data_dir, self.df)
+        self.get_xlnet = get_flair_embedding('XLNetEmbeddings', self.data_dir, self.df)
     
     @staticmethod
     def apply_pooling(technique, df):
