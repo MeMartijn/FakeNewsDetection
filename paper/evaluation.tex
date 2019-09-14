@@ -6,8 +6,8 @@ However, before we can compare performance, a regularization type needs to be sp
 \subsubsection{Regularization}
 
 $L_{1}$ and $L_{2}$ regularizations have been tested on our max pooled text embedding techniques, and the results are shown in figure 3.
-For all but one of the embeddings, the $L_{2}$ regularization had the upper hand.
-That embedding technique, OpenAI's GPT, showed a small advantage when using a $L_{1}$ regularization, however, the difference was very small.
+For all but both of the GPT embeddings, the $L_{2}$ regularization had the upper hand.
+OpenAI's GPT and GPT-2 showed a small advantage when using a $L_{1}$ regularization, however, the difference was very small.
 We can conclude that $L_{2}$ regularization works best on most of our models.
 
 \begin{figure}[h]
@@ -21,6 +21,7 @@ Now that it is clear that the $L_{2}$ regularization performs best on our models
 The results of the classifications are shown in figure 4.
 Between the 5 embedding techniques, there was no shared top performing pooling operation. 
 For 3 of our embeddings, the max pooling operation resulted in a higher accuracy, while OpenAI's GPT and Flair embeddings gained a higher accuracy with min pooling and average pooling, respectively.
+For GPT-2, picking the right pooling technique is really important: the difference between the best performing pooling technique for this model, average pooling, and the runner-up method is more than 4,6\%. 
 
 \begin{figure}[t]
     \centering
