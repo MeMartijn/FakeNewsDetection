@@ -156,7 +156,11 @@ The model is pre-trained on the WikiText-103 dataset, which contains over 100 mi
 Each created word vector has a length of 1024. 
 
 \paragraph{GPT-2}
+In February 2019, Radford et al. released successor to the GPT model: GPT-2\nocite{radford2019}. 
+The major difference between both models is that the second version is trained with more than ten times the amount of parameters on more than ten times the amount of data than the original GPT model.
+Furthermore, there has been slight adjustments in normalization layers and batch size while training. 
 
+Pre-training was conducted on the medium version of the model, which generates word vectors with a length of 2048. 
 
 \subsubsection{Pooling and padding}
 For our classification tasks, we need to transform the shape of our data to a uniform style.
