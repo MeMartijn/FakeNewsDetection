@@ -13,7 +13,7 @@ We can conclude that $L_{2}$ regularization works best on most of our models.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\columnwidth]{regularizationcomparison}
-    \caption{Comparing performance between a $L_{1}$ regularization and a $L_{2}$ regularization on max pooled datasets.}
+    \caption{Test set accuracies on logistic regression with different regularization types.}
 \end{figure}
 
 \subsubsection{Comparing performance on a logistic regression model}
@@ -25,7 +25,7 @@ For 3 of our embeddings, the max pooling operation resulted in a higher accuracy
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.9\columnwidth]{poolingaccuracy}
-    \caption{Comparing different pooling strategies.}
+    \caption{Test set accuracies on logistic regression with different pooling techniques.}
 \end{figure}
 
 \subsection{RQ2}
@@ -42,12 +42,12 @@ This allows the highest cutoff point (\(median + 2 \times \sigma \approx 36\)) t
 
 \begin{figure}[b]
     \includegraphics[width=0.9\columnwidth]{bilstmaccuracies}
-    \caption{Test set accuracies with variable maximum lengths over a bidirectional LSTM architecture.}
+    \caption{Bi-LSTM test set accuracy of padded datasets with variable maximum lengths.}
 \end{figure}
     
 \begin{figure}[b]
     \includegraphics[width=0.9\columnwidth]{cnnaccuracies}
-    \caption{Test set accuracies with variable maximum lengths over a convolutional neural network.}
+    \caption{CNN test set accuracy of padded datasets with variable maximum lengths.}
 \end{figure}
 
 In figure 6, the accuracies with different amounts of padding can be seen compared to our 3 baselines: Khurana's best score, the majority baseline and our own best score using the doc2vec language model.
